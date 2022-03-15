@@ -5,7 +5,7 @@ import View from '../components/root/View'
 export default function TabTwoScreen() {
   return (
     <View>
-       <Text>hi</Text>
+       <Text>hidps</Text>
     </View>
   );
 }

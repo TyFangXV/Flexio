@@ -15,7 +15,9 @@ export default function useCachedResources() {
         // Load fonts
         await Font.loadAsync({
           ...FontAwesome.font,
-          'space-mono': require('../assets/fonts/SpaceMono-Regular.ttf'),
+          'Amiko-Regular': require('../assets/fonts/AMR.ttf'),
+          'Amiko-Bold': require('../assets/fonts/AMB.ttf'),
+          'Amiko-semiBold': require('../assets/fonts/AMHB.ttf'),
         });
       } catch (e) {
         // We might want to provide this error information to an error reporting service

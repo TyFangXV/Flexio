@@ -22,9 +22,18 @@ import Colors from '../constants/Colors';
 import useColorScheme from '../hooks/useColorScheme';
 import ModalScreen from '../screens/ModalScreen';
 import NotFoundScreen from '../screens/NotFoundScreen';
-import TabOneScreen from '../screens/TabOneScreen';
+import TabOneScreen from '../screens/mainScreen';
 import TabTwoScreen from '../screens/TabTwoScreen';
 import LinkingConfiguration from './LinkingConfiguration';
+import AddTask from '../screens/AddTask';
+
+const Theme = {
+  ...DefaultTheme,
+  colors: {
+    ...DefaultTheme.colors,
+    background: '#E2EAF1',
+  },
+};
 
 export default function Navigation({
   colorScheme,
@@ -32,10 +41,7 @@ export default function Navigation({
   colorScheme: ColorSchemeName;
 }) {
   return (
-    <NavigationContainer
-      linking={LinkingConfiguration}
-      theme={colorScheme === 'dark' ? DarkTheme : DefaultTheme}
-    >
+    <NavigationContainer linking={LinkingConfiguration} theme={Theme}>
       <RootNavigator />
     </NavigationContainer>
   );
@@ -53,6 +59,11 @@ function RootNavigator() {
       <Stack.Screen
         name="Root"
         component={BottomTabNavigator}
+        options={{ headerShown: false }}
+      />
+      <Stack.Screen
+        name="AddTask"
+        component={AddTask}
         options={{ headerShown: false }}
       />
       <Stack.Screen
@@ -95,11 +106,11 @@ function BottomTabNavigator() {
         options={({ navigation }: RootTabScreenProps<'TabOne'>) => ({
           title: '',
           tabBarIcon: ({ color }) => (
-            <TouchableOpacity   style={styles.btn}>
+            <TouchableOpacity style={styles.btn}>
               <Icon
                 type="FontAwesome5"
                 name="history"
-                size={42}
+                size={40}
                 style={styles.icon}
                 color={'white'}
                 tvParallaxProperties={undefined}
@@ -110,17 +121,17 @@ function BottomTabNavigator() {
       />
       <BottomTab.Screen
         name="TabTwo"
-        component={TabTwoScreen}
+        component={TabOneScreen}
         options={{
           title: '',
           tabBarIcon: ({ color }) => (
-            <TouchableOpacity style={styles.btn}> 
+            <TouchableOpacity style={styles.btn}>
               <Icon
                 type="Entypo"
                 name="home"
                 color={'white'}
                 style={styles.icon}
-                size={42}
+                size={40}
                 tvParallaxProperties={undefined}
               />
             </TouchableOpacity>
@@ -137,7 +148,7 @@ function BottomTabNavigator() {
               <Icon
                 type="MaterialIcons"
                 name="date-range"
-                size={42}
+                size={40}
                 style={styles.icon}
                 color={'white'}
                 tvParallaxProperties={undefined}
@@ -150,12 +161,11 @@ function BottomTabNavigator() {
   );
 }
 
-
 const styles = StyleSheet.create({
-  btn : {
+  btn: {
     marginTop: 5,
   },
   icon: {
-    height : 50
-  }
-})
+    height: 50,
+  },
+});
