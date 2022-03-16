@@ -37,21 +37,21 @@ const styles = StyleSheet.create({
         borderRadius: 20
     },
     title : {
-        fontSize : 25,
+        fontSize : 23,
         textAlign : "center",
         fontFamily : "Amiko-Bold",
-        padding : 15,
+        padding : 10,
         color : "white"
     },
     declineBtn : {
         backgroundColor : Colors.light.red,
-        padding : 10,
+        padding : 5,
         borderTopLeftRadius : 10,
         borderBottomLeftRadius : 10,
     },
     acceptBtn : {
         backgroundColor : Colors.light.green,
-        padding : 10,
+        padding : 5,
         borderTopRightRadius : 10,
         borderBottomRightRadius : 10,
     },
