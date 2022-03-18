@@ -1,6 +1,6 @@
 import { useNavigation } from "@react-navigation/native";
 import { TouchableOpacity, View, Text, StyleSheet } from "react-native";
-import {Icon} from 'react-native-elements'
+import { Entypo } from '@expo/vector-icons';
 import Colors from "../constants/Colors";
 
 const AddTask = () => {
@@ -9,7 +9,7 @@ const AddTask = () => {
     return (
         <View>
             <TouchableOpacity style={styles.btn} onPress={()=>navigation.navigate("AddTask")}>
-                <Icon type="MaterialIcons" name="add-circle" size={25} tvParallaxProperties={undefined} color="white"/>
+            <Entypo name="circle-with-plus" size={30} color="white"/>
                 <Text style={styles.text}>Add Task</Text>
             </TouchableOpacity>
         </View>

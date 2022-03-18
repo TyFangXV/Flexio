@@ -1,18 +1,20 @@
 import react, { ReactNode, useRef, useState } from 'react';
 import { View, ViewProps, Text, StyleSheet, Pressable, Animated } from 'react-native';
 import { Icon } from 'react-native-elements';
+import Checkbox from 'expo-checkbox';
 
 type Props = {
   children: JSX.IntrinsicAttributes &
     JSX.IntrinsicClassAttributes<View> &
-    Readonly<ViewProps> &
-    Readonly<{ children?: ReactNode }>;
+    Readonly<{ children?: ReactNode }>
   title: string;
   color: string;
+  [key: string]: any;
 };
 
 const ResizableModel = ({ title, children, color }: Props) => {
   const [isOpen, setIsOpen] = useState<boolean>(false);
+  const [isDisabled, setIsDisabled] = useState<boolean>(false);
   const transition  = useRef(new Animated.Value(0)).current;
 
   //animation for a clean opening/closing of the model by increasing the height of the model
@@ -31,7 +33,7 @@ const ResizableModel = ({ title, children, color }: Props) => {
 
   return (
     <View style={[styles.container, { backgroundColor: color }]}>
-      <View>
+      <View style={{flexDirection : "row", justifyContent : "space-between"}}>
         <Pressable onPress={toggle} style={styles.header}>
           <Text style={styles.title}>{title}</Text>
           <View>

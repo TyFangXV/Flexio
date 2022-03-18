@@ -5,7 +5,7 @@ import { RootStackScreenProps } from '../../types';
 export default function NotFoundScreen({ navigation }: RootStackScreenProps<'NotFound'>) {
   return (
     <View>
-
+        
     </View>
   );
 }

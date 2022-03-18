@@ -1,12 +1,12 @@
 import { View, TouchableOpacity, StyleSheet } from "react-native";
-import {Icon} from 'react-native-elements'
+import { MaterialIcons } from '@expo/vector-icons';
 import Colors from "../constants/Colors";
 
 const SettingsBtn = () => {
     return (
         <View>
             <TouchableOpacity style={styles.btn}>
-                <Icon type="MaterialIcons" name="settings" size={32} color="white" tvParallaxProperties={undefined}/>
+            <MaterialIcons name="settings" size={32} color="white"/>
             </TouchableOpacity>
         </View>    
     )

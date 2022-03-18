@@ -1,5 +1,6 @@
 import { StyleSheet, Text, TouchableOpacity, View } from "react-native";
-import {Icon} from 'react-native-elements'
+import { MaterialIcons, AntDesign } from '@expo/vector-icons';
+
 import Colors from "../constants/Colors";
 
 type HeaderType = {
@@ -13,13 +14,13 @@ const Header = ({title, cancelFunction, acceptFunction}:HeaderType) => {
         <View style={styles.container}>
             <View style={styles.declineBtn}>
                 <TouchableOpacity onPress={cancelFunction}>
-                   <Icon type="MaterialIcons" name="cancel" size={35} color="white" tvParallaxProperties={undefined} style={styles.btnIcon}/>
+                <MaterialIcons name="cancel" size={35} color="white" style={styles.btnIcon}/>
                 </TouchableOpacity>
             </View>
             <Text style={styles.title}>{title}</Text>    
             <View style={styles.acceptBtn}>
                 <TouchableOpacity onPress={acceptFunction}>
-                    <Icon type="MaterialIcons" name="check-box" size={35} color="white" tvParallaxProperties={undefined} style={styles.btnIcon}/>
+                <AntDesign name="checksquare" size={35} color="white" style={styles.btnIcon}/>
                 </TouchableOpacity>
             </View>         
         </View>
