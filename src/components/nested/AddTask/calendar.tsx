@@ -1,30 +1,34 @@
-import React from 'react';
-import { useRecoilState } from 'recoil';
+import React, { useContext } from 'react';
 import { StyleSheet, View, Text } from 'react-native';
-import CustomDatePicker from '../../CustomDatePicker';
-import { date } from '../../../state/AddTask';
+import CustomDatePicker from '../../root/CustomDatePicker';
+import { useTask } from '../../../context/Task';
 
 const CalendarPicker = () => {
+  const { task, setTask } = useTask();
 
-  const setPickedDate = ( from:Date, till:Date) => {
-     console.log("ji")
-  }
+  const setPickedDate = (from: Date, till: Date) => {
+    setTask({ ...task, date: { from: from, till: till } });
+  };
 
-
-
+  //set the default date in the date if the value returned is undefined
   return (
     <View style={style.container}>
       <CustomDatePicker
-        onChange={(event: any, selectedDate: Date | undefined) => setPickedDate(selectedDate as Date, new Date)}
-        value={new Date()}
+        onChange={(e: any, date: Date | undefined) =>
+          setPickedDate(date || task.date.from, task.date.till)
+        }
+        value={task.date.from}
         mode={'date'}
         is24Hour={false}
       />
       <Text style={style.line}>-</Text>
       <CustomDatePicker
-        onChange={(event: any, selectedDate: Date | undefined) => (event: any, selectedDate: Date | undefined) => setPickedDate(selectedDate as Date, new Date)}
-        value={new Date()}
+        onChange={(e: any, date: Date | undefined) =>
+          setPickedDate(task.date.from, date || task.date.till)
+        }
+        value={task.date.till}
         mode={'date'}
+        minimumDate={task.date.from}
         is24Hour={false}
       />
     </View>

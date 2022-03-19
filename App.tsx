@@ -1,10 +1,13 @@
 import { StatusBar } from 'expo-status-bar';
 import { SafeAreaProvider } from 'react-native-safe-area-context';
-import { RecoilRoot } from 'recoil';
+
 
 import useCachedResources from './src/hooks/useCachedResources';
 import useColorScheme from './src/hooks/useColorScheme';
 import Navigation from './src/navigation';
+//context provider 
+import TaskListProvider from './src/context/AddTask';
+import TaskProvider from './src/context/Task';
 
 export default function App() {
   const isLoadingComplete = useCachedResources();
@@ -14,12 +17,15 @@ export default function App() {
     return null;
   } else {
     return (
-      <RecoilRoot>
-      <SafeAreaProvider>
-          <Navigation colorScheme={colorScheme} />
-          <StatusBar />
-        </SafeAreaProvider>   
-      </RecoilRoot>     
+    <TaskProvider>
+      <TaskListProvider>
+        <SafeAreaProvider>
+            <Navigation colorScheme={colorScheme} />
+            <StatusBar />
+          </SafeAreaProvider> 
+        </TaskListProvider>       
+    </TaskProvider>
+     
     );
   }
 }
