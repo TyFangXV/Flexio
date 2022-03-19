@@ -18,7 +18,7 @@ type Props = {
 };
 
 //formate the date to be displayed
-export const formatAMPM = (date: Date) => {
+const formatAMPM = (date: Date) => {
   var hours = date.getHours();
   var minutes: string | number = date.getMinutes();
   var ampm = hours >= 12 ? 'pm' : 'am';

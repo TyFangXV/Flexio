@@ -1,7 +1,7 @@
 import React from 'react';
 import { Text, View } from 'react-native';
 import { useTask } from '../../../context/Task';
-import CustomTimePicker, { formatAMPM } from '../../root/CustomTimePicker';
+import CustomTimePicker from '../../root/CustomTimePicker';
 
 const TimePicker: React.FC = () => {
   const { task, setTask } = useTask();

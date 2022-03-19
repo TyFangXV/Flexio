@@ -39,7 +39,7 @@ export type RootTabScreenProps<Screen extends keyof RootTabParamList> = Composit
 >;
 
 export type Task = {
-  id: number;
+  id: string;
   title: string;
   date : {
     from : Date,

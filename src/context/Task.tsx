@@ -2,8 +2,8 @@ import React, {createContext, useState} from "react";
 import {Task, TaskContextType} from "../../types";
 
 
-const defaultData: Task = {
-    id: 0,
+export const defaultData: Task = {
+    id: "0",
     title: '',
     date: {
         from: new Date(),
@@ -20,6 +20,7 @@ const TaskContext = createContext<TaskContextType>({} as TaskContextType);
 
 const TaskProvider:React.FC = ({children})  => {
     const [task, setTask] = useState<Task>(defaultData);
+
 
     return (
         <TaskContext.Provider value={{task, setTask}}>{children}</TaskContext.Provider>
