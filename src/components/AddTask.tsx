@@ -1,3 +1,4 @@
+import React from "react";
 import { useNavigation } from "@react-navigation/native";
 import { TouchableOpacity, View, Text, StyleSheet } from "react-native";
 import { Entypo } from '@expo/vector-icons';

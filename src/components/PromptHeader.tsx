@@ -2,6 +2,7 @@ import { StyleSheet, Text, TouchableOpacity, View } from "react-native";
 import { MaterialIcons, AntDesign } from '@expo/vector-icons';
 
 import Colors from "../constants/Colors";
+import React from "react";
 
 type HeaderType = {
     title : string,
@@ -9,7 +10,7 @@ type HeaderType = {
     acceptFunction : () => void
 }
 
-const Header = ({title, cancelFunction, acceptFunction}:HeaderType) => {
+const Header:React.FC<HeaderType> = ({title, cancelFunction, acceptFunction}) => {
     return (
         <View style={styles.container}>
             <View style={styles.declineBtn}>

@@ -1,15 +1,16 @@
 import { StatusBar } from 'expo-status-bar';
 import { SafeAreaProvider } from 'react-native-safe-area-context';
 
-
 import useCachedResources from './src/hooks/useCachedResources';
 import useColorScheme from './src/hooks/useColorScheme';
 import Navigation from './src/navigation';
-//context provider 
+//context provider
 import TaskListProvider from './src/context/AddTask';
 import TaskProvider from './src/context/Task';
+import React from 'react';
+import ContextProvider from './src/components/nested/ContextProvider';
 
-export default function App() {
+const App: React.FC = () => {
   const isLoadingComplete = useCachedResources();
   const colorScheme = useColorScheme();
 
@@ -17,15 +18,14 @@ export default function App() {
     return null;
   } else {
     return (
-    <TaskProvider>
-      <TaskListProvider>
+      <ContextProvider>
         <SafeAreaProvider>
-            <Navigation colorScheme={colorScheme} />
-            <StatusBar />
-          </SafeAreaProvider> 
-        </TaskListProvider>       
-    </TaskProvider>
-     
+          <Navigation colorScheme={colorScheme} />
+          <StatusBar />
+        </SafeAreaProvider>
+      </ContextProvider>
     );
   }
-}
+};
+
+export default App;

@@ -1,21 +1,35 @@
 import react, { ReactNode, useRef, useState } from 'react';
-import { View, ViewProps, Text, StyleSheet, Pressable, Animated } from 'react-native';
-import { Icon } from 'react-native-elements';
-import Checkbox from 'expo-checkbox';
+import {
+  View,
+  ViewProps,
+  Text,
+  StyleSheet,
+  Pressable,
+  Animated,
+  StyleProp,
+  RegisteredStyle,
+} from 'react-native';
+import { MaterialIcons } from '@expo/vector-icons';
+import React from 'react';
 
 type Props = {
   children: JSX.IntrinsicAttributes &
     JSX.IntrinsicClassAttributes<View> &
-    Readonly<{ children?: ReactNode }>
+    Readonly<{ children?: ReactNode }>;
   title: string;
   color: string;
-  [key: string]: any;
+  onPress?: () => void | undefined;
 };
 
-const ResizableModel = ({ title, children, color }: Props) => {
+const ResizableModel: React.FC<Props> = ({
+  title,
+  children,
+  color,
+  onPress,
+}) => {
   const [isOpen, setIsOpen] = useState<boolean>(false);
   const [isDisabled, setIsDisabled] = useState<boolean>(false);
-  const transition  = useRef(new Animated.Value(0)).current;
+  const transition = useRef(new Animated.Value(0)).current;
 
   //animation for a clean opening/closing of the model by increasing the height of the model
   const openingAnimation = () => {
@@ -28,17 +42,22 @@ const ResizableModel = ({ title, children, color }: Props) => {
 
   const toggle = () => {
     openingAnimation();
-    setIsOpen(!isOpen)
-  }
+    setIsOpen(!isOpen);
+  };
 
   return (
     <View style={[styles.container, { backgroundColor: color }]}>
-      <View style={{flexDirection : "row", justifyContent : "space-between"}}>
-        <Pressable onPress={toggle} style={styles.header}>
+      <View style={{ flexDirection: 'row', justifyContent: 'space-between' }}>
+        <Pressable
+          onPress={() => {
+            onPress !== undefined && onPress();
+            toggle();
+          }}
+          style={styles.header}
+        >
           <Text style={styles.title}>{title}</Text>
           <View>
-            <Icon
-              type="MaterialIcons"
+            <MaterialIcons
               name={isOpen ? 'keyboard-arrow-up' : 'keyboard-arrow-down'}
               size={30}
               color="white"
@@ -48,7 +67,11 @@ const ResizableModel = ({ title, children, color }: Props) => {
           </View>
         </Pressable>
       </View>
-      <Animated.View style={{ display: isOpen ? 'flex' : 'none',  maxHeight : transition }}>{children}</Animated.View>
+      <Animated.View
+        style={{ display: isOpen ? 'flex' : 'none', maxHeight: transition }}
+      >
+        {children}
+      </Animated.View>
     </View>
   );
 };
@@ -67,7 +90,7 @@ const styles = StyleSheet.create({
     fontFamily: 'Amiko-Bold',
   },
   header: {
-    width: '55%',
+    width: '65%',
     flexDirection: 'row',
   },
   icon: {

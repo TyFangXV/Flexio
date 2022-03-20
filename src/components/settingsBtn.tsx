@@ -1,8 +1,9 @@
+import React from "react";
 import { View, TouchableOpacity, StyleSheet } from "react-native";
 import { MaterialIcons } from '@expo/vector-icons';
 import Colors from "../constants/Colors";
 
-const SettingsBtn = () => {
+const SettingsBtn:React.FC = () => {
     return (
         <View>
             <TouchableOpacity style={styles.btn}>

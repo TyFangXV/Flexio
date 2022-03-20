@@ -1,5 +1,6 @@
 import React, {createContext, useState} from "react";
 import {Task, TaskContextType} from "../../types";
+import Setting from "../constants/Setting";
 
 
 export const defaultData: Task = {
@@ -14,6 +15,11 @@ export const defaultData: Task = {
         from: new Date(),
         till: new Date(),
     },
+    settings : {
+        category : Setting.defaultCategory,
+        icon : Setting.defaultIcon,
+        color : Setting.defaultColor,
+    }
 };
 
 const TaskContext = createContext<TaskContextType>({} as TaskContextType);

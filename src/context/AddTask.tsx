@@ -2,7 +2,7 @@ import React, { createContext, useState } from 'react';
 import { Task, TaskListContextType } from '../../types';
 
 const defaultData: Task = {
-  id: 0,
+  id: "0",
   title: '',
   date: {
     from: new Date(),
@@ -13,6 +13,15 @@ const defaultData: Task = {
     from: new Date(),
     till: new Date(),
   },
+  settings : {
+    category : {
+      id: "0",
+      name: '',
+      color: '',
+    },
+    icon : "",
+    color : "",
+  }
 };
 
 const TaskListContext = createContext<TaskListContextType>({} as TaskListContextType);
