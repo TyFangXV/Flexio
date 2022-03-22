@@ -17,8 +17,6 @@ export const defaultData: Task = {
     },
     settings : {
         category : Setting.defaultCategory,
-        icon : Setting.defaultIcon,
-        color : Setting.defaultColor,
     }
 };
 

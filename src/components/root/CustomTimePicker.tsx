@@ -8,6 +8,7 @@ import {
 import { Ionicons } from '@expo/vector-icons';
 import DateTimePicker from '@react-native-community/datetimepicker';
 import React from 'react';
+import { formatAMPM } from '../../utils/formatAMPM';
 
 type Props = {
   minimumTime?: Date;
@@ -15,18 +16,6 @@ type Props = {
   onChange: (event: any, t: Date) => void;
   value: Date;
   is24Hour: boolean;
-};
-
-//formate the date to be displayed
-const formatAMPM = (date: Date) => {
-  var hours = date.getHours();
-  var minutes: string | number = date.getMinutes();
-  var ampm = hours >= 12 ? 'pm' : 'am';
-  hours = hours % 12;
-  hours = hours ? hours : 12; // the hour '0' should be '12'
-  minutes = minutes < 10 ? '0' + minutes.toString() : minutes.toString();
-  var strTime = hours + ':' + minutes + ' ' + ampm;
-  return strTime;
 };
 
 const CustomTimePicker: React.FC<Props> = ({

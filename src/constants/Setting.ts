@@ -25,26 +25,26 @@ export default {
         {
             id : "2",
             name: "Food",
-            color: colors[1],
+            color: colors[4],
             icon: "md-pizza"
         },
         {
             id : "3",
-            name: "Transport",
+            name: "School",
             color: colors[2],
-            icon: "md-car"
+            icon: "md-school"
         },
         {
             id : "4",
             name: "Shopping",
-            color: colors[3],
+            color: colors[1],
             icon: "md-cart"
         },
         {
             id : "5",
-            name: "Entertainment",
-            color: colors[4],
-            icon: "md-game-controller-b"
+            name : "Chores",
+            color: colors[3],
+            icon: "md-construct"
         }
     ],
     defaultCategory: {

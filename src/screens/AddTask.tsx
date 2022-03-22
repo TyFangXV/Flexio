@@ -81,10 +81,14 @@ const AddTask: React.FC = () => {
                 <TouchableOpacity
                   key={index}
                   onPress={() =>
-                    setTask({
-                      ...task,
-                      settings: { ...task.settings, category },
-                    })
+                    {
+                      console.log("category-icon", task.settings.category.icon);
+                      
+                      setTask({
+                        ...task,
+                        settings: { ...task.settings,  category},
+                      })
+                    }
                   }
                   style={[
                     styles.pickerContainerContent,
@@ -122,6 +126,7 @@ const AddTask: React.FC = () => {
         >
           <TextInput
             style={styles.input}
+            maxLength={25}
             placeholder="Type here"
             onChangeText={(t) => setTask({ ...task, title: t.trim() })}
           />

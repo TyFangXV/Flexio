@@ -59,6 +59,7 @@ export type Task = {
 export type Category = {
   id: string;
   name: string;
+  icon:  string;
   color: string;
 };
 
@@ -82,6 +83,4 @@ export type TaskListContextType = {
 
 export type TaskSettings = {
   category : Category;
-  icon : string;
-  color : string;
 }
