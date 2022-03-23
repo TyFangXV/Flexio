@@ -7,7 +7,7 @@ import {
   View,
   Text,
   Pressable,
-  TouchableOpacity
+  TouchableOpacity,
 } from 'react-native';
 
 import { Task } from '../../types';
@@ -21,7 +21,7 @@ import { useTaskList } from '../context/AddTask';
 import { defaultData, useTask } from '../context/Task';
 import Setting from '../constants/Setting';
 import { minsPerDay } from '../utils/minsPerDay';
-
+import AsyncStorage from '@react-native-async-storage/async-storage';
 const AddTask: React.FC = () => {
   const navigation = useNavigation();
   const [isPickerOpen, setIsPickerOpen] = useState<boolean>(false);
@@ -66,49 +66,52 @@ const AddTask: React.FC = () => {
     //add the data to the list and clear out the task data
     setTaskList((prev) => [...prev, newTask]);
     setTask(defaultData);
+    //save the data to the storage
+    AsyncStorage.setItem('taskList', JSON.stringify(TaskList))
+      .then(() => { 
+        console.log('TaskList saved');
+      })
+      .catch((err) => {
+        console.log(err);
+      });
     navigation.goBack();
   };
 
-
-  const CategoryPicker:React.FC = ()=> {
-    return(
+  const CategoryPicker: React.FC = () => {
+    return (
       <View>
-      {isPickerOpen && (
-        <View style={styles.pickerContainer}>
-          {Setting.category.map(
-            (category, index) =>
-              category.name !== 'All' && (
-                <TouchableOpacity
-                  key={index}
-                  onPress={() =>
-                    {
-                      console.log("category-icon", task.settings.category.icon);
-                      
+        {isPickerOpen && (
+          <View style={styles.pickerContainer}>
+            {Setting.category.map(
+              (category, index) =>
+                category.name !== 'All' && (
+                  <TouchableOpacity
+                    key={index}
+                    onPress={() => {
+                      console.log('category-icon', task.settings.category.icon);
+
                       setTask({
                         ...task,
-                        settings: { ...task.settings,  category},
-                      })
-                    }
-                  }
-                  style={[
-                    styles.pickerContainerContent,
-                    task.settings.category.name === category.name &&
-                      styles.pickerContainerContentSelected,
-                  ]}
-                >
-                  <Text style={styles.pickerText} key={index}>
-                    {category.name}
-                  </Text>
-                </TouchableOpacity>
-              )
-          )}
-        </View>
-      )}
-    </View>
-    )
-  }
-
-
+                        settings: { ...task.settings, category },
+                      });
+                    }}
+                    style={[
+                      styles.pickerContainerContent,
+                      task.settings.category.name === category.name &&
+                        styles.pickerContainerContentSelected,
+                    ]}
+                  >
+                    <Text style={styles.pickerText} key={index}>
+                      {category.name}
+                    </Text>
+                  </TouchableOpacity>
+                )
+            )}
+          </View>
+        )}
+      </View>
+    );
+  };
 
   return (
     <CustomSafeView>
@@ -156,24 +159,22 @@ const AddTask: React.FC = () => {
               style={styles.picker}
               onPress={() => setIsPickerOpen(!isPickerOpen)}
             >
-              <Text style={styles.pickerText}>{task.settings.category.name}</Text>
+              <Text style={styles.pickerText}>
+                {task.settings.category.name}
+              </Text>
               <AntDesign
                 name={!isPickerOpen ? 'caretdown' : 'caretup'}
                 size={20}
                 color="black"
               />
             </Pressable>
-          </MinimizableModel>    
-           <CategoryPicker/>      
+          </MinimizableModel>
+          <CategoryPicker />
         </View>
-
-        
       </View>
     </CustomSafeView>
   );
 };
-
-
 
 const styles = StyleSheet.create({
   header: {
@@ -201,16 +202,15 @@ const styles = StyleSheet.create({
     fontFamily: 'Amiko-semiBold',
   },
   pickerContainer: {
-    position : "absolute",
+    position: 'absolute',
     top: '5%',
-    left : "10%",
+    left: '10%',
     backgroundColor: 'white',
     borderRadius: 10,
     flexDirection: 'column',
     width: '50%',
   },
   pickerContainerContent: {
-
     padding: 10,
   },
   pickerContainerContentSelected: {
