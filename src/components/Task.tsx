@@ -29,13 +29,13 @@ const Task:React.FC<Props> = ({props, color, title, icon, from, till})=>{
 
 const style = StyleSheet.create({
     container : {
+        height : 200,
         margin : 5,
-        width : "35%" ,
-        height : 200    ,
         borderRadius : 10,
         flexDirection : "column",
         justifyContent : "space-between",
-        padding : 5
+        padding : 5,
+        width : "48%",
     },
     center : {
         justifyContent : "center",

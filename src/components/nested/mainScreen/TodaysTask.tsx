@@ -9,20 +9,30 @@ import {
   Animated,
   FlatList,
 } from 'react-native';
-import { CategoryList } from '../../../../types';
+import { Category, CategoryList, Task } from '../../../../types';
 import Colors from '../../../constants/Colors';
 import { useTaskList } from '../../../context/AddTask';
 import { useCategoryList } from '../../../context/Category';
 import { Ionicons } from '@expo/vector-icons';
-import Task from '../../Task';
+import TaskComponent from '../../Task';
+import Setting from '../../../constants/Setting';
+import { Divider } from 'react-native-elements';
 
 const TodaysTask: React.FC = () => {
   const { TaskList } = useTaskList();
   const { categoryList } = useCategoryList();
   const [isMenuOpen, setIsMenuOpen] = useState<boolean>(false);
-  const [selectedCategory, setSelectedCategory] = useState<string>('All');
+  const [selectedCategory, setSelectedCategory] = useState<Category>(Setting.category[0]);
   const transition = useRef(new Animated.Value(0)).current;
-  //const task = TaskList.filter(task => task.date.from. === new Date().toDateString());
+  let filteredTasklist: Task[] = TaskList;
+  //filter the list to based of the selected category
+  if(selectedCategory.name !== 'All'){
+    console.log("tasklist: " + selectedCategory.name + " and task" + TaskList[1].settings.category.name);
+    
+    filteredTasklist = TaskList.filter(task => task.settings.category.name === selectedCategory.name);
+    console.log(filteredTasklist);
+    
+  }
 
   //animation for a clean opening
   const animation = Animated.timing(transition, {
@@ -49,7 +59,14 @@ const TodaysTask: React.FC = () => {
             tvParallaxProperties={undefined}
           />
         </Pressable>
-
+        <Divider
+          orientation="horizontal"
+          style={{
+            height: 3,
+            backgroundColor: Colors.light.text_secondary,
+            borderRadius: 5,
+          }}
+        />
         {isMenuOpen &&
           (animation.start(),
           (
@@ -60,10 +77,10 @@ const TodaysTask: React.FC = () => {
                 return (
                   <View key={index}>
                     <TouchableOpacity
-                      onPress={() => setSelectedCategory(item.name)}
+                      onPress={() => setSelectedCategory(item)}
                       style={[
                         style.popUpModelItem,
-                        selectedCategory === item.name &&
+                        selectedCategory.name === item.name &&
                           style.popUpItemSelected,
                       ]}
                     >
@@ -77,26 +94,25 @@ const TodaysTask: React.FC = () => {
       </View>
 
       <View>
-        <FlatList 
+        <FlatList
           numColumns={2}
           automaticallyAdjustContentInsets={false}
           keyExtractor={(item) => item.id}
-          data={TaskList.slice(1,TaskList.length)}
+          data={selectedCategory.name !== "All" ? filteredTasklist : filteredTasklist.slice(1, filteredTasklist.length)}
           renderItem={({ item }) => {
             return (
-              <Task
+              <TaskComponent
                 title={item.title}
                 color={item.settings.category.color}
-                Onpress={()=>console.log("drex")}
+                Onpress={() => console.log('drex')}
                 till={item.Time.till}
                 from={item.Time.from}
                 icon={item.settings.category.icon}
                 props={undefined}
               />
-            )
+            );
           }}
         />
-
       </View>
     </View>
   );
@@ -104,7 +120,7 @@ const TodaysTask: React.FC = () => {
 
 const style = StyleSheet.create({
   container: {
-    margin: 2,
+    margin: 5,
   },
   titleHeader: {
     flexDirection: 'row',
@@ -116,7 +132,7 @@ const style = StyleSheet.create({
     color: Colors.light.text_secondary,
   },
   popUpModel: {
-    zIndex : 1,
+    zIndex: 1,
     backgroundColor: 'white',
     width: '35%',
     position: 'absolute',

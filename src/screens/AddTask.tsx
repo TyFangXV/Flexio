@@ -126,7 +126,7 @@ const AddTask: React.FC = () => {
         >
           <TextInput
             style={styles.input}
-            maxLength={25}
+            maxLength={40}
             placeholder="Type here"
             onChangeText={(t) => setTask({ ...task, title: t.trim() })}
           />

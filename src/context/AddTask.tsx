@@ -15,14 +15,15 @@ const defaultData: Task = {
   },
   settings : {
     category : {
+      icon : "",
       id: "0",
       name: '',
       color: '',
-    },
-    icon : "",
-    color : "",
+    }
   }
 };
+
+
 
 const TaskListContext = createContext<TaskListContextType>({} as TaskListContextType);
 

@@ -25,7 +25,7 @@ export default {
         {
             id : "2",
             name: "Food",
-            color: colors[4],
+            color: colors[4 ],
             icon: "md-pizza"
         },
         {
