@@ -14,9 +14,7 @@ const CalendarPicker = () => {
   return (
     <View style={style.container}>
       <CustomDatePicker
-        onChange={(e: any, date: Date | undefined) =>
-          setPickedDate(date || task.date.from, task.date.till)
-        }
+        onChange={(e: any, date: Date | undefined) => setPickedDate(date || task.date.from, task.date.till)}
         value={task.date.from}
         mode={'date'}
         is24Hour={false}
@@ -24,7 +22,7 @@ const CalendarPicker = () => {
       <Text style={style.line}>-</Text>
       <CustomDatePicker
         onChange={(e: any, date: Date | undefined) =>
-          setPickedDate(task.date.from, date || task.date.till)
+          setPickedDate(task.date.from, date || task.date.till  || new Date)
         }
         value={task.date.till}
         mode={'date'}

@@ -1,5 +1,6 @@
 import { MaterialIcons } from '@expo/vector-icons';
-import React, { useRef, useState } from 'react';
+import AsyncStorage from '@react-native-async-storage/async-storage';
+import React, { useEffect, useRef, useState } from 'react';
 import {
   Animated,
   FlatList, Pressable, StyleSheet, Text, TouchableOpacity, View
@@ -10,6 +11,8 @@ import Colors from '../../../constants/Colors';
 import Setting from '../../../constants/Setting';
 import { useTaskList } from '../../../context/AddTask';
 import { useCategoryList } from '../../../context/Category';
+import { formatAMPM } from '../../../utils/formatAMPM';
+import { UuidGenerator } from '../../../utils/UuidGenerator';
 import TaskComponent from '../../Task';
 
 const TodaysTask: React.FC = () => {
@@ -17,19 +20,33 @@ const TodaysTask: React.FC = () => {
   const { categoryList } = useCategoryList();
   const [isMenuOpen, setIsMenuOpen] = useState<boolean>(false);
   const [selectedCategory, setSelectedCategory] = useState<Category>(Setting.category[0]);
-  const transition = useRef(new Animated.Value(0)).current;
-  //get the task thats date matches the current date
-  let filteredTasklist: Task[] = TaskList.filter(task => task.date.from.toLocaleDateString() === new Date().toLocaleDateString() || task.date.till.getTime());
+  const transition = useRef(new Animated.Value(0)).current;let filteredTasklist = TaskList.filter(task => new Date(task.date.from).toLocaleDateString() === new Date().toLocaleDateString() || new Date(task.date.till).getTime());
 
+  
+  
 
+  //get the task stored locally and save it to the global variable while not overwriting the existing one
+  const getTaskListFromLocalStorage = async () => {
+    try {
+      const taskList = await AsyncStorage.getItem('taskList');
+      
+      if (taskList !== null) {
+        //convert json into js object
+        const taskListObj:{taskList : Task[]} = JSON.parse(taskList);
+        
+        //set the task list to the global variable
+        setTaskList(taskListObj.taskList);
+      }
+    } catch (e) {
+      console.log(e);
+    }
+  };
+
+  
 
   //filter the list to based of the selected category and time
   if(selectedCategory.name !== 'All'){
-    const date= new Date;
-    //filter the list based off time 
     filteredTasklist = filteredTasklist.filter(task => task.settings.category.name === selectedCategory.name);
-    console.log(filteredTasklist);
-    
   }
 
   //animation for a clean opening
@@ -95,20 +112,17 @@ const TodaysTask: React.FC = () => {
         <FlatList
           numColumns={2}
           automaticallyAdjustContentInsets={false}
-          keyExtractor={(item) => item.id}
-          data={selectedCategory.name !== "All" ? filteredTasklist : filteredTasklist.slice(1, filteredTasklist.length)}
+          key={UuidGenerator(65)}
+          data={selectedCategory.name !== "All" ? filteredTasklist : TaskList}
           renderItem={({ item }) => {
             return (
               <TaskComponent
                 title={item.title}
                 color={item.settings.category.color}
-                Onpress={() => {
-                  setTaskList(TaskList.filter(task => task.id !== item.id));
-                  console.log(TaskList);
-                  
-                }}
+                Onpress={() => console.log('pressed')}
                 till={item.Time.till}
                 from={item.Time.from}
+                isTemplate={item.isTemplate}
                 isDone={item.isDone}
                 icon={item.settings.category.icon}
                 props={undefined}

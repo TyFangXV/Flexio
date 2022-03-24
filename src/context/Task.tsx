@@ -17,7 +17,8 @@ export const defaultData: Task = {
     },
     settings : {
         category : Setting.defaultCategory,
-    }
+    },
+    isTemplate : true
 };
 
 const TaskContext = createContext<TaskContextType>({} as TaskContextType);

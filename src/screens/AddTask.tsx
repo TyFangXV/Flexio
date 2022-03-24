@@ -1,4 +1,5 @@
 import { useNavigation } from '@react-navigation/native';
+
 import React, { useState } from 'react';
 import { AntDesign } from '@expo/vector-icons';
 import {
@@ -22,19 +23,20 @@ import { defaultData, useTask } from '../context/Task';
 import Setting from '../constants/Setting';
 import { minsPerDay } from '../utils/minsPerDay';
 import AsyncStorage from '@react-native-async-storage/async-storage';
+import { UuidGenerator } from '../utils/UuidGenerator';
+
 const AddTask: React.FC = () => {
   const navigation = useNavigation();
   const [isPickerOpen, setIsPickerOpen] = useState<boolean>(false);
   const { task, setTask } = useTask();
   const { TaskList, setTaskList } = useTaskList();
 
+
   //function to add the task to the list
   const AddTheTask = (task: Task) => {
-    console.log(task);
-
     //generate a new UUID
-    let uniqueId =
-      Date.now().toString(36) + Math.random().toString(36).substring(2);
+    let uniqueId = UuidGenerator(32 + Math.random() * 86 / 2);
+
 
     //check if the time is valid if the date is the same
     if (
@@ -61,19 +63,31 @@ const AddTask: React.FC = () => {
       isDone: false,
       Time: task.Time,
       settings: task.settings,
+      isTemplate : false
     };
 
+    
+    const newTaskList:Task[] = [];
+    TaskList.forEach((task) => {
+      if(!task.isTemplate){
+        newTaskList.push(task);
+      }
+    });
+
     //add the data to the list and clear out the task data
-    setTaskList((prev) => [...prev, newTask]);
+    setTaskList((prev) => [...newTaskList, newTask]);
     setTask(defaultData);
-    //save the data to the storage
-    AsyncStorage.setItem('taskList', JSON.stringify(TaskList))
+
+    
+    //save the task to the local storage
+    AsyncStorage.setItem('taskList', JSON.stringify({taskList: TaskList}))
       .then(() => { 
         console.log('TaskList saved');
       })
       .catch((err) => {
-        console.log(err);
+        console.log("failed to save taskList");
       });
+      
     navigation.goBack();
   };
 
@@ -88,7 +102,6 @@ const AddTask: React.FC = () => {
                   <TouchableOpacity
                     key={index}
                     onPress={() => {
-                      console.log('category-icon', task.settings.category.icon);
 
                       setTask({
                         ...task,
@@ -160,7 +173,7 @@ const AddTask: React.FC = () => {
               onPress={() => setIsPickerOpen(!isPickerOpen)}
             >
               <Text style={styles.pickerText}>
-                {task.settings.category.name}
+                {Setting.category[1].name}
               </Text>
               <AntDesign
                 name={!isPickerOpen ? 'caretdown' : 'caretup'}

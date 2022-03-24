@@ -1,41 +1,24 @@
 import React, { createContext, useState } from 'react';
 import { Task, TaskListContextType } from '../../types';
+import { defaultData } from './Task';
 
-const defaultData: Task = {
-  id: "0",
-  title: '',
-  date: {
-    from: new Date(),
-    till: new Date(),
-  },
-  isDone: false,
-  Time: {
-    from: new Date(),
-    till: new Date(),
-  },
-  settings : {
-    category : {
-      icon : "",
-      id: "0",
-      name: '',
-      color: '',
-    }
-  }
-};
-
-
-
-const TaskListContext = createContext<TaskListContextType>({} as TaskListContextType);
+const TaskListContext = createContext<TaskListContextType>(
+  {} as TaskListContextType
+);
 
 const TaskListProvider: React.FC = ({ children }) => {
   const [TaskList, setTaskList] = useState<Task[]>([defaultData]);
 
   return (
-    <TaskListContext.Provider value={{TaskList, setTaskList}}>{children}</TaskListContext.Provider>
+    <TaskListContext.Provider value={{ TaskList, setTaskList }}>
+      {children}
+    </TaskListContext.Provider>
   );
 };
 
+
+
 export const useTaskList = () => React.useContext(TaskListContext);
 
-export default TaskListProvider;
 
+export default TaskListProvider;
