@@ -22,22 +22,29 @@ import { useTaskList } from '../context/AddTask';
 import { defaultData, useTask } from '../context/Task';
 import Setting from '../constants/Setting';
 import { minsPerDay } from '../utils/minsPerDay';
-import AsyncStorage from '@react-native-async-storage/async-storage';
 import { UuidGenerator } from '../utils/UuidGenerator';
+import { useDispatch, useSelector } from 'react-redux';
+import { RootState } from '../redux/reducers';
+import { setTitle } from '../redux/reducers/task';
+
 
 const AddTask: React.FC = () => {
   const navigation = useNavigation();
   const [isPickerOpen, setIsPickerOpen] = useState<boolean>(false);
   const { task, setTask } = useTask();
   const { TaskList, setTaskList } = useTaskList();
-
-
+  const taskM = useSelector((state:RootState) => state);
+  
+  const dispatcher = useDispatch();
   //function to add the task to the list
   const AddTheTask = (task: Task) => {
     //generate a new UUID
     let uniqueId = UuidGenerator(32 + Math.random() * 86 / 2);
 
-
+ 
+        console.log(taskM.Task);
+        
+    /*
     //check if the time is valid if the date is the same
     if (
       task.date.from.toLocaleDateString() ===
@@ -67,28 +74,20 @@ const AddTask: React.FC = () => {
     };
 
     
+    
     const newTaskList:Task[] = [];
     TaskList.forEach((task) => {
       if(!task.isTemplate){
         newTaskList.push(task);
       }
     });
-
+    
     //add the data to the list and clear out the task data
     setTaskList((prev) => [...newTaskList, newTask]);
     setTask(defaultData);
+    */
 
-    
-    //save the task to the local storage
-    AsyncStorage.setItem('taskList', JSON.stringify({taskList: TaskList}))
-      .then(() => { 
-        console.log('TaskList saved');
-      })
-      .catch((err) => {
-        console.log("failed to save taskList");
-      });
-      
-    navigation.goBack();
+    //navigation.goBack();
   };
 
   const CategoryPicker: React.FC = () => {
@@ -144,7 +143,11 @@ const AddTask: React.FC = () => {
             style={styles.input}
             maxLength={40}
             placeholder="Type here"
-            onChangeText={(t) => setTask({ ...task, title: t.trim() })}
+            onChangeText={(t) => {
+              dispatcher(setTitle(t))
+              
+              
+            }}
           />
         </MinimizableModel>
 

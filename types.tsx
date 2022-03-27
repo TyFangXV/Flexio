@@ -52,7 +52,8 @@ export type Task = {
     from: Date;
     till: Date;
   },
-  settings : TaskSettings
+  settings : TaskSettings,
+  isTemplate : boolean,
 };
 
 //array of catergories
@@ -84,3 +85,4 @@ export type TaskListContextType = {
 export type TaskSettings = {
   category : Category;
 }
+

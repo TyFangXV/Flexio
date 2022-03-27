@@ -2,18 +2,23 @@ import React from 'react';
 import { Text, View } from 'react-native';
 import { useTask } from '../../../context/Task';
 import CustomTimePicker from '../../root/CustomTimePicker';
+import { useDispatch, useSelector } from 'react-redux';
+import { RootState } from '../../../redux/reducers';
+import { setFromDate, setTillDate, setTimeFrom, setTimeTill } from '../../../redux/reducers/task';
+import { Task } from '../../../../types';
 
 const TimePicker: React.FC = () => {
-  const { task, setTask } = useTask();
+  const task = useSelector((state:RootState) => state.Task.task);
 
-  const setPickedTime = (from: Date, till: Date) => {
-    setTask({ ...task, Time: { from: from, till: till } });
-  };
+  
+  const dispatcher = useDispatch();
+
+
 
   return (
     <View style={{ flexDirection: 'row' }}>
       <CustomTimePicker
-        onChange={(e: any, t: Date) => setPickedTime(t, task.Time.till)}
+        onChange={(e: any, t: Date) => t !== undefined && dispatcher(setTimeFrom(t))}
         value={task.Time.from}
         is24Hour={false}
       />
@@ -23,9 +28,8 @@ const TimePicker: React.FC = () => {
         -
       </Text>
       <CustomTimePicker
-        onChange={(e: any, t: Date) => setPickedTime(task.Time.from, t)}
+        onChange={(e: any, t: Date) => t !== undefined && dispatcher(setTimeTill(t))}
         value={task.Time.till}
-        minimumTime={task.Time.from}
         is24Hour={false}
       />
     </View>

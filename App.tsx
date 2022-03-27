@@ -9,6 +9,8 @@ import TaskListProvider from './src/context/AddTask';
 import TaskProvider from './src/context/Task';
 import React from 'react';
 import ContextProvider from './src/components/nested/ContextProvider';
+import { Provider } from 'react-redux';
+import store from './src/redux/store';
 
 const App: React.FC = () => {
   const isLoadingComplete = useCachedResources();
@@ -18,12 +20,15 @@ const App: React.FC = () => {
     return null;
   } else {
     return (
-      <ContextProvider>
-        <SafeAreaProvider>
-          <Navigation colorScheme={colorScheme} />
-          <StatusBar />
-        </SafeAreaProvider>
-      </ContextProvider>
+      <Provider store={store}>
+        <ContextProvider>
+          <SafeAreaProvider>
+              <Navigation colorScheme={colorScheme} />
+              <StatusBar />
+            </SafeAreaProvider>         
+        </ContextProvider>        
+      </Provider>
+
     );
   }
 };

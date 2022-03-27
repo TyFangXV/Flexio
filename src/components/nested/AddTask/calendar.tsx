@@ -1,29 +1,28 @@
 import React, { useContext } from 'react';
 import { StyleSheet, View, Text } from 'react-native';
 import CustomDatePicker from '../../root/CustomDatePicker';
-import { useTask } from '../../../context/Task';
+import { useDispatch, useSelector } from 'react-redux';
+import { RootState } from '../../../redux/reducers';
+import { setFromDate, setTillDate } from '../../../redux/reducers/task';
+import { Task } from '../../../../types';
 
 const CalendarPicker = () => {
-  const { task, setTask } = useTask();
+  const task = useSelector((state:RootState) => state.Task.task);
+  const dispatcher = useDispatch();
 
-  const setPickedDate = (from: Date, till: Date) => {
-    setTask({ ...task, date: { from: from, till: till } });
-  };
-
+  
   //set the default date in the date if the value returned is undefined
   return (
     <View style={style.container}>
       <CustomDatePicker
-        onChange={(e: any, date: Date | undefined) => setPickedDate(date || task.date.from, task.date.till)}
+        onChange={(e: any, date: Date | undefined) => date !== undefined && dispatcher(setFromDate(date))}
         value={task.date.from}
         mode={'date'}
         is24Hour={false}
       />
       <Text style={style.line}>-</Text>
       <CustomDatePicker
-        onChange={(e: any, date: Date | undefined) =>
-          setPickedDate(task.date.from, date || task.date.till  || new Date)
-        }
+        onChange={(e: any, date: Date | undefined) => date !== undefined && dispatcher(setTillDate(date))}
         value={task.date.till}
         mode={'date'}
         minimumDate={task.date.from}
