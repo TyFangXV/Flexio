@@ -2,7 +2,6 @@ import { Reducer } from "redux";
 import {Task } from '../../../types';
 import { useDispatch, useSelector } from 'react-redux';
 import { RootState } from './index';
-const taskM = useSelector((state:RootState) => state);
 
 let initialState = {
     TaskList: []

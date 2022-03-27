@@ -1,11 +1,9 @@
 import React from 'react';
 import { Text, View } from 'react-native';
-import { useTask } from '../../../context/Task';
-import CustomTimePicker from '../../root/CustomTimePicker';
 import { useDispatch, useSelector } from 'react-redux';
 import { RootState } from '../../../redux/reducers';
-import { setFromDate, setTillDate, setTimeFrom, setTimeTill } from '../../../redux/reducers/task';
-import { Task } from '../../../../types';
+import { setTimeFrom, setTimeTill } from '../../../redux/reducers/task';
+import CustomTimePicker from '../../root/CustomTimePicker';
 
 const TimePicker: React.FC = () => {
   const task = useSelector((state:RootState) => state.Task.task);

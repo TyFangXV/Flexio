@@ -6,41 +6,25 @@ import {
   FlatList, Pressable, StyleSheet, Text, TouchableOpacity, View
 } from 'react-native';
 import { Divider } from 'react-native-elements';
+import { useSelector } from 'react-redux';
 import { Category, Task } from '../../../../types';
 import Colors from '../../../constants/Colors';
 import Setting from '../../../constants/Setting';
-import { useTaskList } from '../../../context/AddTask';
-import { useCategoryList } from '../../../context/Category';
+import { RootState } from '../../../redux/reducers';
 import { formatAMPM } from '../../../utils/formatAMPM';
 import { UuidGenerator } from '../../../utils/UuidGenerator';
 import TaskComponent from '../../Task';
 
 const TodaysTask: React.FC = () => {
-  const { TaskList, setTaskList } = useTaskList();
-  const { categoryList } = useCategoryList();
+  const TaskList = useSelector((state: RootState) => state.TaskList);
   const [isMenuOpen, setIsMenuOpen] = useState<boolean>(false);
+  const [categoryList , _setCategoryList] = useState<Category[]>(Setting.category);
   const [selectedCategory, setSelectedCategory] = useState<Category>(Setting.category[0]);
   const transition = useRef(new Animated.Value(0)).current;let filteredTasklist = TaskList.filter(task => new Date(task.date.from).toLocaleDateString() === new Date().toLocaleDateString() || new Date(task.date.till).getTime());
 
   
   
 
-  //get the task stored locally and save it to the global variable while not overwriting the existing one
-  const getTaskListFromLocalStorage = async () => {
-    try {
-      const taskList = await AsyncStorage.getItem('taskList');
-      
-      if (taskList !== null) {
-        //convert json into js object
-        const taskListObj:{taskList : Task[]} = JSON.parse(taskList);
-        
-        //set the task list to the global variable
-        setTaskList(taskListObj.taskList);
-      }
-    } catch (e) {
-      console.log(e);
-    }
-  };
 
   
 

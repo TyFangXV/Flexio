@@ -1,3 +1,4 @@
+import React from "react";
 import { StyleSheet, View } from "react-native";
 import AddTask from "../../AddTask";
 import SettingsBtn from "../../settingsBtn";
