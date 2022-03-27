@@ -1,17 +1,17 @@
 import { MaterialIcons } from '@expo/vector-icons';
-import AsyncStorage from '@react-native-async-storage/async-storage';
 import React, { useEffect, useRef, useState } from 'react';
 import {
   Animated,
   FlatList, Pressable, StyleSheet, Text, TouchableOpacity, View
 } from 'react-native';
 import { Divider } from 'react-native-elements';
-import { useSelector } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 import { Category, Task } from '../../../../types';
 import Colors from '../../../constants/Colors';
 import Setting from '../../../constants/Setting';
 import { RootState } from '../../../redux/reducers';
-import { formatAMPM } from '../../../utils/formatAMPM';
+import { addTask, removeTask } from '../../../redux/reducers/tasklist';
+import { getItem } from '../../../utils/database';
 import { UuidGenerator } from '../../../utils/UuidGenerator';
 import TaskComponent from '../../Task';
 
@@ -21,12 +21,8 @@ const TodaysTask: React.FC = () => {
   const [categoryList , _setCategoryList] = useState<Category[]>(Setting.category);
   const [selectedCategory, setSelectedCategory] = useState<Category>(Setting.category[0]);
   const transition = useRef(new Animated.Value(0)).current;let filteredTasklist = TaskList.filter(task => new Date(task.date.from).toLocaleDateString() === new Date().toLocaleDateString() || new Date(task.date.till).getTime());
+  const dispatcher = useDispatch();
 
-  
-  
-
-
-  
 
   //filter the list to based of the selected category and time
   if(selectedCategory.name !== 'All'){
@@ -39,6 +35,19 @@ const TodaysTask: React.FC = () => {
     duration: 300,
     useNativeDriver: false,
   });
+
+
+  //get the Task from the local storage and add it to the list
+  useEffect(()=>{
+    getItem("TaskList")
+      .then((data) => {
+        const parsedData = JSON.parse(data as string);
+        parsedData.map((task: Task) => {             
+        dispatcher(addTask(task));
+      })              
+    })
+  })
+
 
   return (
     <View style={style.container}>
@@ -103,7 +112,7 @@ const TodaysTask: React.FC = () => {
               <TaskComponent
                 title={item.title}
                 color={item.settings.category.color}
-                Onpress={() => console.log('pressed')}
+                Onpress={() => dispatcher(removeTask(item.id))}
                 till={item.Time.till}
                 from={item.Time.from}
                 isTemplate={item.isTemplate}

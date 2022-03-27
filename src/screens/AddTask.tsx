@@ -25,6 +25,7 @@ import { useDispatch, useSelector } from 'react-redux';
 import { RootState } from '../redux/reducers';
 import { resetData, setCategory, setTitle } from '../redux/reducers/task';
 import { addTask } from '../redux/reducers/tasklist';
+import { setItem } from '../utils/database';
 
 
 const AddTask: React.FC = () => {
@@ -36,7 +37,7 @@ const AddTask: React.FC = () => {
 
   const dispatcher = useDispatch();
   //function to add the task to the list
-  const AddTheTask = (task: Task) => {
+  const AddTheTask = async(task: Task) => {
     //generate a new UUID
     let uniqueId = UuidGenerator(32 + Math.random() * 86 / 2);
 
@@ -75,7 +76,21 @@ const AddTask: React.FC = () => {
     dispatcher(addTask(newTask));
     //reset the form
     dispatcher(resetData());
-    navigation.goBack();
+
+    //save the task to the local storage
+    setItem("TaskList", JSON.stringify([...TaskList, newTask]))
+     .then((e) => {
+        alert("Task added successfully");
+        navigation.goBack();
+    })
+    .catch(err => {
+      //console.log('TaskList not saved');
+      alert("Task not added");
+      navigation.goBack();   
+    });
+    
+    console.log("pressed");
+    
   };
 
   const CategoryPicker: React.FC = () => {
@@ -113,7 +128,7 @@ const AddTask: React.FC = () => {
         <Header
           title="Add your task"
           cancelFunction={() => navigation.goBack()}
-          acceptFunction={() => AddTheTask(task)}
+          acceptFunction={async() => await AddTheTask(task)}
         />
       </View>
       <View>
