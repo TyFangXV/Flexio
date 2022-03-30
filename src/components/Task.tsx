@@ -1,8 +1,10 @@
 import { Ionicons } from '@expo/vector-icons';
-import { CheckBox } from 'react-native-elements';
 import React from 'react';
-import { StyleSheet, View, Text, PixelRatio, BackHandler } from 'react-native';
+import { StyleSheet, View, Text, PixelRatio } from 'react-native';
+import { useDispatch } from 'react-redux';
+import { removeTask } from '../redux/reducers/tasklist';
 import { formatAMPM } from '../utils/formatAMPM';
+import RadioButton from './RadioButton';
 
 type Props = {
   props: any;
@@ -13,7 +15,8 @@ type Props = {
   till: Date;
   isDone: boolean;
   isTemplate: boolean;
-  Onpress: () => void;
+  id: string;
+  OnPress : () => void;
 };
 
 const Task: React.FC<Props> = ({
@@ -23,11 +26,14 @@ const Task: React.FC<Props> = ({
   icon,
   from,
   till,
-  Onpress,
-  isDone,
+  id,
+  OnPress,
   isTemplate,
 }) => {
+
+
   if (!isTemplate) {
+    const dispacter = useDispatch();
     return (
       <View {...props} style={[{ backgroundColor: color }, style.container]}>
         <Text
@@ -36,8 +42,8 @@ const Task: React.FC<Props> = ({
             {
               fontSize:
                 title.split(' ').length < 2
-                  ? PixelRatio.getPixelSizeForLayoutSize(10)
-                  : PixelRatio.getPixelSizeForLayoutSize(8),
+                  ? PixelRatio.getPixelSizeForLayoutSize(9)
+                  : PixelRatio.getPixelSizeForLayoutSize(7),
             },
           ]}
         >
@@ -53,10 +59,12 @@ const Task: React.FC<Props> = ({
             alignItems: 'center',
           }}
         >
-          <Text style={style.time}>{`${formatAMPM(new Date(from))}-${formatAMPM(
-            new Date(till)
-          )}`}</Text>
-          <CheckBox checked={isDone} onPress={Onpress} />
+
+          <Text style={style.time}>
+            {`${formatAMPM(new Date(from))}-${formatAMPM(new Date(till))}`}
+          </Text>
+          
+          <RadioButton OnPress={() => OnPress()} />
         </View>
       </View>
     );

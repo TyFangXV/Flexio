@@ -2,7 +2,7 @@ import db from '@react-native-async-storage/async-storage'
 
 export const setItem = async (key: string, value: any) => {
     try {
-        await db.setItem(key, value)
+        await db.setItem(key, value);
     } catch (e) {
         console.log(e)
     }
@@ -16,6 +16,15 @@ export const getItem = async (key: string) => {
         console.log(e)
     }
 }
+
+export const clearData = (key: string) => {
+    try {
+        db.removeItem(key)
+    } catch (e) {
+        console.log(e)
+    }
+}
+
 
 
 export const deleteItem = async (key: string) => {

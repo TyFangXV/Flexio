@@ -4,6 +4,7 @@ import View from '../components/root/View';
 import { RootTabScreenProps} from '../../types';
 import TopButtons from '../components/nested/mainScreen/TopButtons';
 import TodaysTask from '../components/nested/mainScreen/TodaysTask';
+import OnGoingTask from '../components/nested/mainScreen/OnGoingTask';
 
 
 
@@ -16,7 +17,8 @@ export default function TabOneScreen({
   return (
     <View style={styles.container}>
       <TopButtons />
-      <TodaysTask/>
+        <OnGoingTask/>
+        <TodaysTask/>        
     </View>
   );
 }

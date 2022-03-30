@@ -6,13 +6,15 @@ export const binarySearch = (arr: any[], value: any) => {
     while (low <= high) {
         const mid = Math.floor((low + high) / 2);
         if (arr[mid] === value) {
-        return mid;
+            return mid;
         } else if (arr[mid] < value) {
-        low = mid + 1;
+            low = mid + 1;
         } else {
-        high = mid - 1;
+            high = mid - 1;
         }
     }
     return -1;
-    }
-    
+}
+
+
+

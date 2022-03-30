@@ -10,7 +10,7 @@ import {
   Pressable,
   TouchableOpacity,
 } from 'react-native';
-
+import * as uuid from 'uuid'
 import { Task } from '../../types';
 import MinimizableModel from '../components/MinimizableModel';
 import CalendarPicker from '../components/nested/AddTask/calendar';
@@ -20,7 +20,6 @@ import CustomSafeView from '../components/root/View';
 import Colors from '../constants/Colors';
 import Setting from '../constants/Setting';
 import { minsPerDay } from '../utils/minsPerDay';
-import { UuidGenerator } from '../utils/UuidGenerator';
 import { useDispatch, useSelector } from 'react-redux';
 import { RootState } from '../redux/reducers';
 import { resetData, setCategory, setTitle } from '../redux/reducers/task';
@@ -38,8 +37,6 @@ const AddTask: React.FC = () => {
   const dispatcher = useDispatch();
   //function to add the task to the list
   const AddTheTask = async(task: Task) => {
-    //generate a new UUID
-    let uniqueId = UuidGenerator(32 + Math.random() * 86 / 2);
 
 
     //check if the time is valid if the date is the same
@@ -61,7 +58,7 @@ const AddTask: React.FC = () => {
 
     //add the task to the list
     const newTask: Task = {
-      id: uniqueId,
+      id: uuid.v4(),
       title: task.title,
       date: task.date,
       isDone: false,

@@ -1,13 +1,10 @@
 import react, { ReactNode, useRef, useState } from 'react';
 import {
   View,
-  ViewProps,
   Text,
   StyleSheet,
   Pressable,
   Animated,
-  StyleProp,
-  RegisteredStyle,
 } from 'react-native';
 import { MaterialIcons } from '@expo/vector-icons';
 import React from 'react';

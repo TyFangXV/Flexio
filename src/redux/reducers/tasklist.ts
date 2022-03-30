@@ -1,7 +1,7 @@
 import { Reducer } from "redux";
 import {Task } from '../../../types';
-import { useDispatch, useSelector } from 'react-redux';
-import { RootState } from './index';
+import db from '@react-native-async-storage/async-storage'
+import { clearData, setItem } from "../../utils/database";
 
 let initialState = {
     TaskList: []
@@ -18,7 +18,7 @@ export const addTask = (task:Task) => {
 
 export const removeTask = (id:string) => {
     return {
-        type: 'REMOVE_TASK',
+        type: 'DELETE_TASK',
         payload: {
             id: id
         }
@@ -60,7 +60,12 @@ export const taskListReducer: Reducer<Task[]> = (state = initialState.TaskList, 
             }
             
         case 'DELETE_TASK':
-            return state.filter(task => task.id !== action.payload.id);
+            const newTaskList = state.filter(task => task.id !== action.payload.id);
+            state = newTaskList
+            setItem("TaskList", JSON.stringify(state))
+                .then(() => console.log("TaskList updated"))
+                .catch(err => console.log(err))
+            return state;
         case 'EDIT_TASK':
             return state.map(task => {
                 if (task.id === action.payload.id) {

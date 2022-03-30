@@ -2,32 +2,56 @@ import { MaterialIcons } from '@expo/vector-icons';
 import React, { useEffect, useRef, useState } from 'react';
 import {
   Animated,
-  FlatList, Pressable, StyleSheet, Text, TouchableOpacity, View
+  FlatList,
+  Pressable,
+  StyleSheet,
+  Text,
+  Image,
+  TouchableOpacity,
+  View,
 } from 'react-native';
 import { Divider } from 'react-native-elements';
 import { useDispatch, useSelector } from 'react-redux';
 import { Category, Task } from '../../../../types';
 import Colors from '../../../constants/Colors';
 import Setting from '../../../constants/Setting';
+import * as uuid from 'uuid';
 import { RootState } from '../../../redux/reducers';
-import { addTask, removeTask } from '../../../redux/reducers/tasklist';
+import { addTask } from '../../../redux/reducers/tasklist';
 import { getItem } from '../../../utils/database';
-import { UuidGenerator } from '../../../utils/UuidGenerator';
+import { removeTaskFromList } from '../../../utils/TaskHandler';
 import TaskComponent from '../../Task';
+import PlaceHolderImage from '../placeholder/TodayTask/PlaceHolder';
 
 const TodaysTask: React.FC = () => {
+  const dispatcher = useDispatch();
   const TaskList = useSelector((state: RootState) => state.TaskList);
   const [isMenuOpen, setIsMenuOpen] = useState<boolean>(false);
-  const [categoryList , _setCategoryList] = useState<Category[]>(Setting.category);
+  const [categoryList, _setCategoryList] = useState<Category[]>(Setting.category);
   const [selectedCategory, setSelectedCategory] = useState<Category>(Setting.category[0]);
-  const transition = useRef(new Animated.Value(0)).current;let filteredTasklist = TaskList.filter(task => new Date(task.date.from).toLocaleDateString() === new Date().toLocaleDateString() || new Date(task.date.till).getTime());
-  const dispatcher = useDispatch();
+  const transition = useRef(new Animated.Value(0)).current;
+  let filteredTaskList: Task[] = TaskList.filter((task: Task) =>(new Date(task.date.till).getTime() > new Date().getTime() &&new Date(task.date.from).toLocaleDateString() ===new Date().toLocaleDateString()) ||new Date(task.date.from).getTime() > new Date().getTime());
 
+    //get the Task from the local storage and add it to the list
+    getItem('TaskList').then((data) => {
+      console.log('task', data);
+      if (data !== null) {
+        const parsedData = JSON.parse(data as string);
+        parsedData.map((task: Task) => {
+          dispatcher(addTask(task));
+        });
+      }
+    });
 
   //filter the list to based of the selected category and time
-  if(selectedCategory.name !== 'All'){
-    filteredTasklist = filteredTasklist.filter(task => task.settings.category.name === selectedCategory.name);
+  if (selectedCategory.name !== 'All') {
+    filteredTaskList = filteredTaskList.filter(
+      (task) => task.settings.category.name === selectedCategory.name
+    );
   }
+
+
+  
 
   //animation for a clean opening
   const animation = Animated.timing(transition, {
@@ -36,17 +60,6 @@ const TodaysTask: React.FC = () => {
     useNativeDriver: false,
   });
 
-
-  //get the Task from the local storage and add it to the list
-  useEffect(()=>{
-    getItem("TaskList")
-      .then((data) => {
-        const parsedData = JSON.parse(data as string);
-        parsedData.map((task: Task) => {             
-        dispatcher(addTask(task));
-      })              
-    })
-  })
 
 
   return (
@@ -102,34 +115,43 @@ const TodaysTask: React.FC = () => {
       </View>
 
       <View>
-        <FlatList
-          numColumns={2}
-          automaticallyAdjustContentInsets={false}
-          key={UuidGenerator(65)}
-          data={selectedCategory.name !== "All" ? filteredTasklist : TaskList}
-          renderItem={({ item }) => {
-            return (
-              <TaskComponent
-                title={item.title}
-                color={item.settings.category.color}
-                Onpress={() => dispatcher(removeTask(item.id))}
-                till={item.Time.till}
-                from={item.Time.from}
-                isTemplate={item.isTemplate}
-                isDone={item.isDone}
-                icon={item.settings.category.icon}
-                props={undefined}
-              />
-            );
-          }}
-        />
+        {TaskList.length === 0 ? (
+          <View style={style.placeHolderContainer}>
+              <PlaceHolderImage/>
+              <Text style={style.warner}>No Task Has been added</Text>
+          </View>
+        ) : (
+          <FlatList
+            numColumns={2}
+            automaticallyAdjustContentInsets={false}
+            key={uuid.v4()}
+            data={
+              selectedCategory.name !== 'All'
+                ? filteredTaskList
+                : filteredTaskList
+            }
+            renderItem={({ item }) => {
+              return (
+                <TaskComponent
+                  title={item.title}
+                  color={item.settings.category.color}
+                  id={item.id}
+                  till={item.Time.till}
+                  from={item.Time.from}
+                  isTemplate={item.isTemplate}
+                  isDone={item.isDone}
+                  icon={item.settings.category.icon}
+                  OnPress={() => removeTaskFromList(item.id, dispatcher)}
+                  props={undefined}
+                />
+              );
+            }}
+          />
+        )}
       </View>
     </View>
   );
 };
-
-
-
 
 const style = StyleSheet.create({
   container: {
@@ -137,10 +159,10 @@ const style = StyleSheet.create({
   },
   titleHeader: {
     flexDirection: 'row',
-    width: '50%',
+    width: '60%',
   },
   title: {
-    fontSize: 25,
+    fontSize: 28,
     fontFamily: 'Amiko-Bold',
     color: Colors.light.text_secondary,
   },
@@ -165,6 +187,16 @@ const style = StyleSheet.create({
     borderWidth: 1,
     borderRadius: 5,
   },
+  placeHolderContainer : {
+    justifyContent: 'center',
+    alignItems: 'center',
+  },
+  warner : {
+    fontSize: 20,
+    fontFamily: 'Amiko-Bold',
+    color: Colors.light.text_secondary,
+
+  }
 });
 
 export default TodaysTask;
