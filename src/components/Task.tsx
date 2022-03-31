@@ -13,6 +13,7 @@ type Props = {
   icon: string;
   from: Date;
   till: Date;
+  date: {from : Date, till : Date};
   isDone: boolean;
   isTemplate: boolean;
   id: string;
@@ -27,13 +28,13 @@ const Task: React.FC<Props> = ({
   from,
   till,
   id,
+  date,
   OnPress,
   isTemplate,
 }) => {
 
 
   if (!isTemplate) {
-    const dispacter = useDispatch();
     return (
       <View {...props} style={[{ backgroundColor: color }, style.container]}>
         <Text

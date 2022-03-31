@@ -5,3 +5,5 @@ export const minsPerDay = (time: Date) => {
   let totalMins = hours * 60 + minutes;
   return totalMins;
 };
+
+

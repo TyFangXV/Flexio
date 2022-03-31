@@ -23,6 +23,7 @@ import { removeTaskFromList } from '../../../utils/TaskHandler';
 import TaskComponent from '../../Task';
 import PlaceHolderImage from '../placeholder/TodayTask/PlaceHolder';
 
+
 const TodaysTask: React.FC = () => {
   const dispatcher = useDispatch();
   const TaskList = useSelector((state: RootState) => state.TaskList);
@@ -30,18 +31,9 @@ const TodaysTask: React.FC = () => {
   const [categoryList, _setCategoryList] = useState<Category[]>(Setting.category);
   const [selectedCategory, setSelectedCategory] = useState<Category>(Setting.category[0]);
   const transition = useRef(new Animated.Value(0)).current;
-  let filteredTaskList: Task[] = TaskList.filter((task: Task) =>(new Date(task.date.till).getTime() > new Date().getTime() &&new Date(task.date.from).toLocaleDateString() ===new Date().toLocaleDateString()) ||new Date(task.date.from).getTime() > new Date().getTime());
+  let filteredTaskList: Task[] = TaskList.filter((task: Task) => new Date(task.date.from).toLocaleDateString() === new Date().toLocaleDateString() || new Date(task.date.till).getTime() > new Date().getTime());
 
-    //get the Task from the local storage and add it to the list
-    getItem('TaskList').then((data) => {
-      console.log('task', data);
-      if (data !== null) {
-        const parsedData = JSON.parse(data as string);
-        parsedData.map((task: Task) => {
-          dispatcher(addTask(task));
-        });
-      }
-    });
+
 
   //filter the list to based of the selected category and time
   if (selectedCategory.name !== 'All') {
@@ -53,6 +45,7 @@ const TodaysTask: React.FC = () => {
 
   
 
+  
   //animation for a clean opening
   const animation = Animated.timing(transition, {
     toValue: isMenuOpen ? 300 : 0,
@@ -115,12 +108,7 @@ const TodaysTask: React.FC = () => {
       </View>
 
       <View>
-        {TaskList.length === 0 ? (
-          <View style={style.placeHolderContainer}>
-              <PlaceHolderImage/>
-              <Text style={style.warner}>No Task Has been added</Text>
-          </View>
-        ) : (
+
           <FlatList
             numColumns={2}
             automaticallyAdjustContentInsets={false}
@@ -137,6 +125,7 @@ const TodaysTask: React.FC = () => {
                   color={item.settings.category.color}
                   id={item.id}
                   till={item.Time.till}
+                  date={item.date}
                   from={item.Time.from}
                   isTemplate={item.isTemplate}
                   isDone={item.isDone}
@@ -147,7 +136,6 @@ const TodaysTask: React.FC = () => {
               );
             }}
           />
-        )}
       </View>
     </View>
   );

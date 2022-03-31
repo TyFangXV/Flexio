@@ -1,52 +1,67 @@
 import React from 'react';
-import { View, Text, StyleSheet } from 'react-native';
+import { View, Text, StyleSheet, FlatList } from 'react-native';
 import { Divider } from 'react-native-elements';
 import { useSelector } from 'react-redux';
 import { Task } from '../../../../types';
 import Colors from '../../../constants/Colors';
+import * as uuid from 'uuid';
 import { RootState } from '../../../redux/reducers';
 import OnGoingtaskPlaceHolder from '../placeholder/onGoingTask/OnGoingtask';
+import OnGoingTaskComponent from '../../OnGoingTaskComponent';
 
 const OnGoingTask: React.FC = () => {
   const TaskList = useSelector((state: RootState) => state.TaskList);
-  const filteredList = TaskList;
-  //filer the TaskList based on the time
-  return (
-    <View style={style.container}>
-      <Text style={style.title}>On-Going Task</Text>
-      <Divider
-        orientation="horizontal"
-        style={{
-          height: 3,
-          backgroundColor: Colors.light.text_secondary,
-          borderRadius: 5,
-        }}
-      />
-
-      <View style={style.viewContainer}>
-        {filteredList.length === 0 ? (
-          <View style={style.placeHolderContainer}>
-            <Text style={style.warner}>No Task Has been added</Text>
-            <OnGoingtaskPlaceHolder />
-          </View>
-        ) : (
-          filteredList.map((item, index) => {
-            return (
-              <View key={index}>
-                <Text>{item.title}</Text>
-              </View>
-            );
-          })
-        )}
-      </View>
-    </View>
+  //filter the list by if the task till and from time is between the current time
+  const filteredTaskList: Task[] = TaskList.filter(
+    (task: Task) =>
+      new Date(task.Time.till).getTime() < new Date().getTime() ||
+      (new Date(task.Time.from).getTime() > new Date().getTime() &&
+        new Date(task.date.till).getTime() < new Date().getTime())
   );
+
+  //filer the TaskList based on the time
+  if (filteredTaskList.length === 0) {
+    return <View></View>;
+  } else {
+    return (
+      <View style={style.container}>
+        <Text style={style.title}>On-Going Task</Text>
+        <Divider
+          orientation="horizontal"
+          style={{
+            height: 3,
+            backgroundColor: Colors.light.text_secondary,
+            borderRadius: 5,
+          }}
+        />
+
+        <View style={style.viewContainer}>
+          <FlatList
+            numColumns={2}
+            data={filteredTaskList}
+            key={uuid.v4()}
+            renderItem={({ item }) => (
+              <OnGoingTaskComponent
+                title={item.title}
+                settings={item.settings}
+                id={item.id}
+                date={item.date}
+                isDone={false}
+                Time={item.Time}
+                isTemplate={false}
+              />
+            )}
+          />
+        </View>
+      </View>
+    );
+  }
 };
 
 const style = StyleSheet.create({
   container: {
     margin: 5,
-    marginBottom : 10
+    marginBottom: 10,
   },
   title: {
     fontSize: 30,
