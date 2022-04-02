@@ -7,6 +7,7 @@ import Colors from "../constants/Colors";
 const AddTask = () => {
     const navigation = useNavigation();
 
+    
     return (
         <View>
             <TouchableOpacity style={styles.btn} onPress={()=>navigation.navigate("AddTask")}>

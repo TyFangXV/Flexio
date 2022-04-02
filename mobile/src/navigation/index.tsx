@@ -26,6 +26,7 @@ import TabOneScreen from '../screens/mainScreen';
 import TabTwoScreen from '../screens/TabTwoScreen';
 import LinkingConfiguration from './LinkingConfiguration';
 import AddTask from '../screens/AddTask';
+import HistoryScreen from '../screens/HistoryScreen';
 
 const Theme = {
   ...DefaultTheme,
@@ -66,6 +67,7 @@ function RootNavigator() {
         component={AddTask}
         options={{ headerShown: false }}
       />
+      
       <Stack.Screen
         name="NotFound"
         component={NotFoundScreen}
@@ -89,7 +91,7 @@ function BottomTabNavigator() {
 
   return (
     <BottomTab.Navigator
-      initialRouteName="TabOne"
+      initialRouteName="TabTwo"
       screenOptions={{
         headerShown: false,
         tabBarStyle: {
@@ -102,7 +104,7 @@ function BottomTabNavigator() {
     >
       <BottomTab.Screen
         name="TabOne"
-        component={TabOneScreen}
+        component={HistoryScreen}
         options={({ navigation }: RootTabScreenProps<'TabOne'>) => ({
           title: '',
           tabBarIcon: ({ color }) => (
