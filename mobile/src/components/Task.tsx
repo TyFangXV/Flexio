@@ -1,8 +1,7 @@
 import { Ionicons } from '@expo/vector-icons';
 import React from 'react';
 import { StyleSheet, View, Text, PixelRatio } from 'react-native';
-import { useDispatch } from 'react-redux';
-import { removeTask } from '../redux/reducers/tasklist';
+
 import { formatAMPM } from '../utils/formatAMPM';
 import RadioButton from './RadioButton';
 
@@ -77,12 +76,21 @@ const Task: React.FC<Props> = ({
 const style = StyleSheet.create({
   container: {
     height: 200,
-    margin: 5,
+    margin : 5,
     borderRadius: 10,
     flexDirection: 'column',
     justifyContent: 'space-between',
     padding: 5,
     width: '48%',
+    shadowColor: "black",
+    shadowOffset: {
+      width: 0,
+      height: 6,
+    },
+    shadowOpacity: 0.37,
+    shadowRadius: 7.49,
+    
+    elevation: 5,
   },
   center: {
     justifyContent: 'center',

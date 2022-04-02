@@ -39,10 +39,10 @@ export default function TabOneScreen({
             <PlaceHolderImage/>
           </View>
         ) : (
-          <>
+          <View>
           <OnGoingTask/>
           <TodaysTask/>            
-          </>
+          </View>
         )        
       }
     

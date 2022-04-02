@@ -111,6 +111,7 @@ const TodaysTask: React.FC = () => {
 
           <FlatList
             numColumns={2}
+            horizontal={false}
             automaticallyAdjustContentInsets={false}
             key={uuid.v4()}
             data={
@@ -144,6 +145,8 @@ const TodaysTask: React.FC = () => {
 const style = StyleSheet.create({
   container: {
     margin: 5,
+    marginTop : 0,
+    paddingBottom : 300
   },
   titleHeader: {
     flexDirection: 'row',

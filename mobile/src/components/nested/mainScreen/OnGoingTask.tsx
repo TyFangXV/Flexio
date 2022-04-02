@@ -6,7 +6,6 @@ import { Task } from '../../../../types';
 import Colors from '../../../constants/Colors';
 import * as uuid from 'uuid';
 import { RootState } from '../../../redux/reducers';
-import OnGoingtaskPlaceHolder from '../placeholder/onGoingTask/OnGoingtask';
 import OnGoingTaskComponent from '../../OnGoingTaskComponent';
 
 const OnGoingTask: React.FC = () => {
@@ -37,8 +36,8 @@ const OnGoingTask: React.FC = () => {
 
         <View style={style.viewContainer}>
           <FlatList
-            numColumns={2}
             data={filteredTaskList}
+            horizontal={true}
             key={uuid.v4()}
             renderItem={({ item }) => (
               <OnGoingTaskComponent

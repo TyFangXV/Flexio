@@ -5,18 +5,15 @@ import {
   Text,
   StyleSheet,
   Pressable,
-  Touchable,
-  TouchableOpacity,
   useWindowDimensions,
 } from 'react-native';
-import { Divider } from 'react-native-elements';
 import { Task } from '../../types';
 
 const OnGoingTaskComponent: React.FC<Task> = ({ title, settings }) => {
   const {height, width} = useWindowDimensions();
   
   return (
-    <View style={[style.container, { backgroundColor: '#B90085' }]}>
+    <View style={[style.container, { backgroundColor: '#7300B9' }]}>
       <Text style={style.title}>
         {
           title.length > 15 ? `${title.substring(0, 15)}...` : title
@@ -43,13 +40,21 @@ const style = StyleSheet.create({
     paddingTop : 10,
     paddingBottom : 10,
     padding : 5,
+    margin : 5,
+    marginBottom : 0,
     flexDirection: 'column',
     justifyContent: 'space-between',
-    margin: 5,
-    maxWidth: '48%',
-    minWidth: '48%',
-    borderRadius: 5,
     height: 115,
+    borderRadius: 12,
+    shadowColor: "#000",
+    shadowOffset: {
+      width: 0,
+      height: 6,
+    },
+    shadowOpacity: 0.37,
+    shadowRadius: 7.49,
+    
+    elevation: 12,
   },
   title: {
     fontSize: 20,
@@ -64,6 +69,7 @@ const style = StyleSheet.create({
   icons: {
     fontFamily: 'Amiko-Bold',
     color: 'white',
+    paddingRight: 5,
   },
   btn: {
     backgroundColor: '#fff5',

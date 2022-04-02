@@ -2,7 +2,7 @@
 const colors = [
     "#00A3FF",
     "#FF5C00",
-    "#7300B9",
+    "#00B9AE",
     "#15D904",
     "#FF0606"
 ]
@@ -14,37 +14,37 @@ export default {
             id : "0",
             name: "All",
             color: colors[0],
-            icon: "md-globe"
+            icon: "ios-globe"
         },
         {
             id : "1",
             name: "General",
             color: colors[0],
-            icon: "md-globe"
+            icon: "ios-globe"
         },
         {
             id : "2",
             name: "Food",
             color: colors[4 ],
-            icon: "md-pizza"
+            icon: "ios-fast-food"
         },
         {
             id : "3",
             name: "School",
             color: colors[2],
-            icon: "md-school"
+            icon: "ios-school"
         },
         {
             id : "4",
             name: "Shopping",
             color: colors[1],
-            icon: "md-cart"
+            icon: "ios-cart"
         },
         {
             id : "5",
             name : "Chores",
             color: colors[3],
-            icon: "md-construct"
+            icon: "ios-home"
         }
     ],
     defaultCategory: {
