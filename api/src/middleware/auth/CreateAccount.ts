@@ -2,7 +2,7 @@ import { Router } from "express";
 import * as uuid from 'uuid'
 import { verifyToken } from "../../../secrets/adminToken";
 import { TokenPermissionLevel, userPermissionLevel } from "../../utils/constants/Permissions";
-import { binarySearch } from "../../utils/functions/binarysearch";
+import crypto from 'crypto'
 import ObjectPropertyFinder from "../../utils/functions/ObjectPropertyFinder";
 import userModel, { userAccountType } from "../../utils/model/auth/user";
 const permisionRequirement = TokenPermissionLevel.ADMIN
@@ -21,7 +21,7 @@ const generateAccount = async (email: string, password: string, role: string, us
         if (userRoleAccess) {
             const user = new userModel<userAccountType>({
                 username: username,
-                password: password,
+                password: crypto.createHash("sha256").update(password).digest("hex"),
                 email: email,
                 permission: userRoleAccess.name
             });
@@ -31,8 +31,12 @@ const generateAccount = async (email: string, password: string, role: string, us
         } else {
             return "An error occured";
         }
-    } catch (error) {
-        return error;
+    } catch (error: any) {
+        if(error.code === 11000){
+            return "Email already exists";
+        }
+
+        return error
     }
 
 
@@ -50,7 +54,7 @@ router.post("/", async (req, res) => {
         if (verifyToken(token, permisionRequirement, role)) {
             if (email && password && role && username) {
                 const account = generateAccount(email as string, password as string, role as string, username as string);
-                console.log(account);
+                console.log(await account);
 
                 res.send(await account);
             }

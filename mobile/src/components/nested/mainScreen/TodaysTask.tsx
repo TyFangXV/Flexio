@@ -1,12 +1,11 @@
 import { MaterialIcons } from '@expo/vector-icons';
-import React, { useEffect, useRef, useState } from 'react';
+import React, { useRef, useState } from 'react';
 import {
   Animated,
   FlatList,
   Pressable,
   StyleSheet,
   Text,
-  Image,
   TouchableOpacity,
   View,
 } from 'react-native';
@@ -17,11 +16,8 @@ import Colors from '../../../constants/Colors';
 import Setting from '../../../constants/Setting';
 import * as uuid from 'uuid';
 import { RootState } from '../../../redux/reducers';
-import { addTask } from '../../../redux/reducers/tasklist';
-import { getItem } from '../../../utils/database';
 import { removeTaskFromList } from '../../../utils/TaskHandler';
 import TaskComponent from '../../Task';
-import PlaceHolderImage from '../placeholder/TodayTask/PlaceHolder';
 
 
 const TodaysTask: React.FC = () => {

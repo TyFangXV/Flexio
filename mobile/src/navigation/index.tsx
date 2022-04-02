@@ -147,7 +147,7 @@ function BottomTabNavigator() {
             <TouchableOpacity style={styles.btn}>
               <Icon
                 type="MaterialIcons"
-                name="date-range"
+                name="account-circle"
                 size={40}
                 style={styles.icon}
                 color={'white'}
