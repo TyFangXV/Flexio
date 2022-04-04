@@ -24,9 +24,9 @@ import useColorScheme from '../hooks/useColorScheme';
 import ModalScreen from '../screens/ModalScreen';
 import NotFoundScreen from '../screens/NotFoundScreen';
 import TabOneScreen from '../screens/mainScreen';
-import TabTwoScreen from '../screens/account';
+import TabTwoScreen from '../screens/AccountScreen';
 import LinkingConfiguration from './LinkingConfiguration';
-import AddTask from '../screens/AddTask';
+import AddTask from '../screens/AddTaskScreen';
 import HistoryScreen from '../screens/HistoryScreen';
 
 const Theme = {

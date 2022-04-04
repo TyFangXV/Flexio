@@ -1,4 +1,5 @@
 import React, { ReactNode } from 'react';
+import { useSafeAreaInsets } from 'react-native-safe-area-context';
 import {
   View,
   StyleSheet,
@@ -17,6 +18,7 @@ const view = (
     Readonly<ViewProps> &
     Readonly<{ children?: ReactNode }>
 ) => {
+  const insets = useSafeAreaInsets();
   return (
     <>
       {Platform.OS === 'ios' ? (
@@ -24,7 +26,7 @@ const view = (
           {props.children}
         </SafeAreaView>
       ) : (
-        <View {...props} style={style.container}>
+        <View {...props} style={{paddingTop : insets.top}}>
           {props.children}
         </View>
       )}
