@@ -4,6 +4,7 @@
  *
  */
 import { Icon } from 'react-native-elements';
+import { MaterialIcons } from '@expo/vector-icons';
 import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
 import {
   DarkTheme,
@@ -23,7 +24,7 @@ import useColorScheme from '../hooks/useColorScheme';
 import ModalScreen from '../screens/ModalScreen';
 import NotFoundScreen from '../screens/NotFoundScreen';
 import TabOneScreen from '../screens/mainScreen';
-import TabTwoScreen from '../screens/TabTwoScreen';
+import TabTwoScreen from '../screens/account';
 import LinkingConfiguration from './LinkingConfiguration';
 import AddTask from '../screens/AddTask';
 import HistoryScreen from '../screens/HistoryScreen';
@@ -107,17 +108,14 @@ function BottomTabNavigator() {
         component={HistoryScreen}
         options={({ navigation }: RootTabScreenProps<'TabOne'>) => ({
           title: '',
-          tabBarIcon: ({ color }) => (
-            <TouchableOpacity style={styles.btn}>
-              <Icon
-                type="FontAwesome5"
+          tabBarIcon: ({focused}) => (
+              <MaterialIcons 
                 name="history"
                 size={40}
                 style={styles.icon}
-                color={'white'}
+                color={focused ? "#00A3FF" : "white"}
                 tvParallaxProperties={undefined}
               />
-            </TouchableOpacity>
           ),
         })}
       />
@@ -126,17 +124,14 @@ function BottomTabNavigator() {
         component={TabOneScreen}
         options={{
           title: '',
-          tabBarIcon: ({ color }) => (
-            <TouchableOpacity style={styles.btn}>
-              <Icon
-                type="Entypo"
+          tabBarIcon: ({ focused }) => (
+              <MaterialIcons 
                 name="home"
-                color={'white'}
+                color={focused ? "#00A3FF" : "white"}
                 style={styles.icon}
                 size={40}
                 tvParallaxProperties={undefined}
               />
-            </TouchableOpacity>
           ),
         }}
       />
@@ -145,18 +140,15 @@ function BottomTabNavigator() {
         component={TabTwoScreen}
         options={{
           title: '',
-          tabBarIcon: ({ color }) => (
-            <TouchableOpacity style={styles.btn}>
-              <Icon
-                type="MaterialIcons"
+          tabBarIcon: ({ focused }) => (
+              <MaterialIcons 
                 name="account-circle"
                 size={40}
                 style={styles.icon}
-                color={'white'}
+                color={focused ? "#00A3FF" : "white"}
                 tvParallaxProperties={undefined}
               />
-            </TouchableOpacity>
-          ),
+          ),  
         }}
       />
     </BottomTab.Navigator>
@@ -164,10 +156,7 @@ function BottomTabNavigator() {
 }
 
 const styles = StyleSheet.create({
-  btn: {
-    marginTop: 5,
-  },
   icon: {
-    height: 50,
+    height: 40,
   },
 });

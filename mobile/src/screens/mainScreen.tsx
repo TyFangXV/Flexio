@@ -14,9 +14,9 @@ import { addTask } from '../redux/reducers/tasklist';
 
 
 
-export default function TabOneScreen({
+const TabOneScreen:React.FC<any> = ({
   navigation,
-}: RootTabScreenProps<'TabOne'>) {
+}: RootTabScreenProps<'TabOne'>) => {
   const TaskList = useSelector((state: RootState) => state.TaskList);
   const dispatcher = useDispatch();
   
@@ -64,3 +64,5 @@ const styles = StyleSheet.create({
   }
 
 });
+
+export default TabOneScreen;
