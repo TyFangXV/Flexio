@@ -1,6 +1,6 @@
 import { Router } from "express";
 import * as uuid from 'uuid'
-import { verifyToken } from "../../../secrets/adminToken";
+import { verifyToken } from "../../../.secrets/adminToken";
 import { TokenPermissionLevel, userPermissionLevel } from "../../utils/constants/Permissions";
 import crypto from 'crypto'
 import ObjectPropertyFinder from "../../utils/functions/ObjectPropertyFinder";
