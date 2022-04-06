@@ -2,6 +2,7 @@ import React, { useEffect, useState } from 'react';
 import { StyleSheet, Text, TouchableOpacity, Linking } from 'react-native';
 import Divider from '../components/Divider';
 import SignInComponent from '../components/nested/AccountScreen/SignIn';
+import SignUpComponent from '../components/nested/AccountScreen/SignUp';
 import SwitchAuthorizationStatus from '../components/nested/AccountScreen/SwitchAuthorizationStatus';
 import View from '../components/root/View';
 import Colors from '../constants/Colors';
@@ -11,9 +12,9 @@ const AccountScreen:React.FC = () => {
   return (
     <View>
       {
-        isSignInStatus ? (<SignInComponent/>) : (<Text>AccountScreen</Text>)
+        isSignInStatus ? (<SignInComponent/>) : (<SignUpComponent/>)
       }
-      <SwitchAuthorizationStatus/>       
+      <SwitchAuthorizationStatus onClick={() => setAuthorizationStatus(!isSignInStatus)} status={isSignInStatus}/>       
     </View>
   );
 }

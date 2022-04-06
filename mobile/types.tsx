@@ -86,3 +86,15 @@ export type TaskSettings = {
   category : Category;
 }
 
+export type Account = {
+  email : string,
+  password : string,
+  username : string,
+  id : string
+}
+
+export type AccountContextType = {
+  account : Account;
+  setAccount : React.Dispatch<React.SetStateAction<Account>>;
+}
+
