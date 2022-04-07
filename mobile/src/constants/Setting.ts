@@ -58,5 +58,6 @@ export default {
     defaultIconColor: "#fff",
     defaultIconSize: 25,
     defaultIconType: "material-community",
+    ApiUrl: "http://localhost:3000",
 }
 

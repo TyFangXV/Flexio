@@ -8,6 +8,7 @@ let initialState = {
         username: '',
         email: '',
         password: '',
+        isSignIn: false,
     }
 }
 

@@ -1,12 +1,12 @@
 import { Router } from "express";
-import TokenRouter from "./CreateAccount";
-import GoogleSignInRouter from './googleSign'
-import CreateAccountRouter from  './CreateAccount'
+import TokenRouter from "./accountRouter";
+import GoogleSignInRouter from './googleSignRouter'
+import CreateAccountRouter from  './accountRouter'
 const router = Router();
 
 router.use("/createToken", TokenRouter);
 router.use("/google", GoogleSignInRouter);
-router.use("/CreateAccount", CreateAccountRouter);
+router.use("/account", CreateAccountRouter);
 
 
 export default router;

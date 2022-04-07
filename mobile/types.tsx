@@ -90,7 +90,8 @@ export type Account = {
   email : string,
   password : string,
   username : string,
-  id : string
+  id : string,
+  isSignIn : boolean,
 }
 
 export type AccountContextType = {

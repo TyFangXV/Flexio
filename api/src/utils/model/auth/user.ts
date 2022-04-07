@@ -6,7 +6,8 @@ export type userAccountType = {
     email: string,
     password: string,
     username: string,
-    permission : string
+    permission : string,
+    _id: string
 }
 
 const userSchema = new Schema({
@@ -27,11 +28,7 @@ const userSchema = new Schema({
         type: String,
         required: true
     },
-    id : {
-        type: String,
-        default: uuid.v4,
-        unique: true
-    }
+    _id : String
 });
 
 

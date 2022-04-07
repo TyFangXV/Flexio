@@ -1,12 +1,68 @@
+import axios from "axios";
 import React, { useState } from "react";
-import { View, Text, StyleSheet, Touchable, TouchableOpacity } from "react-native";
+import { View, Text, StyleSheet, Touchable, TouchableOpacity, Alert } from "react-native";
+import { useDispatch } from "react-redux";
+import { Account } from "../../../../types";
 import Colors from "../../../constants/Colors";
+import Setting from "../../../constants/Setting";
+import { UpdateAccount } from "../../../redux/reducers/Account";
+import { setItem } from "../../../utils/database";
 import Divider from '../../Divider'
 import CustomTextInput from "../../root/CustomTextInputProps";
 
-const SignInComponent:React.FC = () => {
+interface Props {
+    OnPressEvent: () => void;
+}
+
+const SignInComponent:React.FC<Props> = ({OnPressEvent}) => {
+    const dispatch = useDispatch();
+
     const [email, setEmail] = useState<string>("");
     const [password, setPassword] = useState<string>("");
+    
+    const setUpUser = async(account: Account) => { 
+        await setItem("account", JSON.stringify(account))
+        dispatch(UpdateAccount(account));
+    }
+
+    const signIn = async() => {
+        try {
+
+            if(email.length === 0 || password.length === 0) {
+                alert("The email or password is empty");
+                return;
+            }
+
+            const {data} = await axios.post(`${Setting.ApiUrl}/auth/account/signin`, {
+                email,
+                password
+            })
+
+            console.log(data);
+            
+            
+            if(data.data !== null)
+            {
+                const userData:Account = {
+                        id: data.id,
+                        email: data.email,
+                        username : data.username,
+                        password : data.password,
+                        isSignIn : true,
+                }                 
+                setUpUser(userData);
+            }else{
+                alert(data.error);
+            }
+        
+        } catch (error) {
+            console.log(error);
+            
+        }
+
+        
+    }
+
     return (
         <View style={styles.container}>
             <Text style={styles.title}>Sign-In to your Account</Text>
@@ -15,7 +71,7 @@ const SignInComponent:React.FC = () => {
             <CustomTextInput value={email} onChangeText={(e)=> setEmail(e.nativeEvent.text)} placeholder={"Enter your Email"} />
             <CustomTextInput value={password} onChangeText={(e)=> setPassword(e.nativeEvent.text)} placeholder={"Enter your Password"} />
             <View style={{minHeight : 20}}></View>
-            <TouchableOpacity style={styles.btn}>
+            <TouchableOpacity style={styles.btn} onPress={async() => {await signIn(); OnPressEvent()}}>
                 <Text style={styles.SignInText}>Sign In</Text>
             </TouchableOpacity>
         </View>
