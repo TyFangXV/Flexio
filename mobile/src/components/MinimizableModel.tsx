@@ -14,6 +14,7 @@ type Props = {
     JSX.IntrinsicClassAttributes<View> &
     Readonly<{ children?: ReactNode }>;
   title: string;
+  width? : number | string;
   color: string;
   onPress?: () => void | undefined;
 };
@@ -22,6 +23,7 @@ const ResizableModel: React.FC<Props> = ({
   title,
   children,
   color,
+  width,
   onPress,
 }) => {
   const [isOpen, setIsOpen] = useState<boolean>(false);
@@ -43,7 +45,7 @@ const ResizableModel: React.FC<Props> = ({
   };
 
   return (
-    <View style={[styles.container, { backgroundColor: color }]}>
+    <View style={[styles.container, { backgroundColor: color }, width !== undefined && {width}]}>
       <View style={{ flexDirection: 'row', justifyContent: 'space-between' }}>
         <Pressable
           onPress={() => {

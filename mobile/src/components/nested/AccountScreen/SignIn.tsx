@@ -44,13 +44,13 @@ const SignInComponent:React.FC<Props> = ({OnPressEvent}) => {
             if(data.data !== null)
             {
                 const userData:Account = {
-                        id: data.id,
-                        email: data.email,
-                        username : data.username,
-                        password : data.password,
+                        id: data.data.id,
+                        email: data.data.email,
+                        username : data.data.username,
+                        password : data.data.password,
                         isSignIn : true,
                 }                 
-                setUpUser(userData);
+                await setUpUser(userData);
             }else{
                 alert(data.error);
             }

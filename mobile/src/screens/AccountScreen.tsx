@@ -1,7 +1,9 @@
 import React, { useEffect, useState } from 'react';
 import { StyleSheet, Text, TouchableOpacity, Linking, View } from 'react-native';
 import { useDispatch, useSelector } from 'react-redux';
+import { Account } from '../../types';
 import Divider from '../components/Divider';
+import AccountInfo from '../components/nested/AccountScreen/AccountInfo';
 import SignInComponent from '../components/nested/AccountScreen/SignIn';
 import SignUpComponent from '../components/nested/AccountScreen/SignUp';
 import SwitchAuthorizationStatus from '../components/nested/AccountScreen/SwitchAuthorizationStatus';
@@ -20,8 +22,11 @@ const AccountScreen: React.FC = () => {
     getItem("account")
         .then(value => {
             if(value !== null) {
-                console.log(account);
-                
+                const parsedData:Account = JSON.parse(value as string);
+                if(!account.isSignIn)
+                {
+                    dispatch(UpdateAccount(parsedData));
+                }
             }
         }
     );
@@ -39,10 +44,8 @@ const AccountScreen: React.FC = () => {
         </>
       ) : (
         <View>
-          <Text>{account.email}</Text>
-          <Text>{account.username}</Text>
-          <Text>{account.password}</Text>
-          </View>
+            <AccountInfo email={account.email} password={''} username={account.username} id={''} isSignIn={false}/>
+        </View>
       )}
     </SafeView>
   );

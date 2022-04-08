@@ -57,7 +57,9 @@ export default {
     defaultIcon: "md-globe",
     defaultIconColor: "#fff",
     defaultIconSize: 25,
+    defaultFontFamily : "Amiko-Bold",
     defaultIconType: "material-community",
     ApiUrl: "http://localhost:3000",
+    profilePic : "https://avataaars.io/?avatarStyle=Transparent&topType=Hat&accessoriesType=Blank&facialHairType=MoustacheFancy&facialHairColor=BrownDark&clotheType=Hoodie&clotheColor=Blue02&eyeType=Default&eyebrowType=Default&mouthType=Default&skinColor=Light"
 }
 

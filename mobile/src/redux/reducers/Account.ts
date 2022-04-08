@@ -16,7 +16,7 @@ export const UpdateAccount = (account:Account) => {
     return {
         type: 'UPDATE_ACCOUNT',
         payload: {
-            account: account
+            account
         }
     }
 }
@@ -25,8 +25,9 @@ export const UpdateAccount = (account:Account) => {
 export const accountReducer: Reducer<Account> = (state = initialState.Account, action) => {
     switch (action.type) {
         case 'UPDATE_ACCOUNT':
-            const newAccount = action.payload.account;
-            return newAccount;
+            const newAccount:Account = action.payload.account;
+            state = newAccount;
+            return state;
         default:
             return state;
     }
