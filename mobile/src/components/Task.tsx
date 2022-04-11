@@ -15,7 +15,7 @@ type Props = {
   date: {from : Date, till : Date};
   isDone: boolean;
   isTemplate: boolean;
-  id: string;
+  _id: string;
   OnPress : () => void;
 };
 
@@ -26,7 +26,7 @@ const Task: React.FC<Props> = ({
   icon,
   from,
   till,
-  id,
+  _id,
   date,
   OnPress,
   isTemplate,

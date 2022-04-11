@@ -109,4 +109,33 @@ router.post("/signIn", async (req, res) => {
 })
 
 
+router.post("/verify", async (req, res) => {
+    //get the user id and the password and check if the user exists
+    const { id, password } = req.body;
+    try {
+        if(id && password)
+        {
+            const userData = await userModel.findOne({_id: id as string});
+            if(userData)
+            {
+                if(userData.password === password)
+                {
+                    res.status(200).send({error : null , data : userData});
+                }
+                else
+                {
+                    res.status(200).send({error : "incorrect password", data :  null});
+                }
+            }else{
+                res.status(200).send({error : "Email not Found", data :  null});
+            }   
+        }else{
+            res.send("Missing params");
+        }
+    } catch (error) {
+        res.send({error, data : null});        
+    }
+})
+
+
 export default router;

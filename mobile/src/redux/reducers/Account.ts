@@ -4,7 +4,7 @@ import { Account } from "../../../types";
 
 let initialState = {
     Account : {
-        id: '',
+        _id: '',
         username: '',
         email: '',
         password: '',

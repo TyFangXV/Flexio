@@ -41,7 +41,7 @@ export type RootTabScreenProps<Screen extends keyof RootTabParamList> =
   >;
 
 export type Task = {
-  id: string;
+  _id: string;
   title: string;
   date: {
     from: Date;
@@ -90,7 +90,7 @@ export type Account = {
   email : string,
   password : string,
   username : string,
-  id : string,
+  _id : string,
   isSignIn : boolean,
 }
 

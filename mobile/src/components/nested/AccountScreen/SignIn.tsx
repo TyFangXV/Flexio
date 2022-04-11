@@ -22,6 +22,8 @@ const SignInComponent:React.FC<Props> = ({OnPressEvent}) => {
     
     const setUpUser = async(account: Account) => { 
         await setItem("account", JSON.stringify(account))
+        console.log(account);
+        
         dispatch(UpdateAccount(account));
     }
 
@@ -38,13 +40,11 @@ const SignInComponent:React.FC<Props> = ({OnPressEvent}) => {
                 password
             })
 
-            console.log(data);
-            
             
             if(data.data !== null)
             {
                 const userData:Account = {
-                        id: data.data.id,
+                        _id: data.data._id,
                         email: data.data.email,
                         username : data.data.username,
                         password : data.data.password,

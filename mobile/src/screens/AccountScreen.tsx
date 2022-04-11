@@ -1,3 +1,4 @@
+import axios from 'axios';
 import React, { useEffect, useState } from 'react';
 import { StyleSheet, Text, TouchableOpacity, Linking, View } from 'react-native';
 import { useDispatch, useSelector } from 'react-redux';
@@ -9,9 +10,28 @@ import SignUpComponent from '../components/nested/AccountScreen/SignUp';
 import SwitchAuthorizationStatus from '../components/nested/AccountScreen/SwitchAuthorizationStatus';
 import SafeView from '../components/root/View';
 import Colors from '../constants/Colors';
+import Setting from '../constants/Setting';
 import { RootState } from '../redux/reducers';
 import { UpdateAccount } from '../redux/reducers/Account';
 import { getItem, setItem } from '../utils/database';
+
+const verifyAuth = async(id:string, password :string) => {
+  try {
+    const {data:res} = await axios.post(`${Setting.ApiUrl}/auth/account/verify`, {
+      id,
+      password
+    })
+
+    if(res.data !== null)
+    {
+      return true
+    }else{
+      return false
+    }
+  } catch (error) {
+    console.log(error)
+  }
+}
 
 const AccountScreen: React.FC = () => {
   const dispatch = useDispatch();
@@ -19,18 +39,26 @@ const AccountScreen: React.FC = () => {
   const [isSignInStatus, setAuthorizationStatus] = useState<boolean>(true);
 
   useEffect(() => {
-    getItem("account")
-        .then(value => {
-            if(value !== null) {
-                const parsedData:Account = JSON.parse(value as string);
-                if(!account.isSignIn)
-                {
-                    dispatch(UpdateAccount(parsedData));
-                }
+    //check if the user auth data is stored locally and if so authenticate with it 
+    (async()=> {
+      const storageResponse = await getItem("account");
+      if(storageResponse !== null)
+      {
+        const parsedData:Account = JSON.parse(storageResponse as string);
+        if(!account.isSignIn)
+        {
+            const res = await verifyAuth(account._id, account.password);
+            if(res === true)
+            {
+              dispatch(UpdateAccount(parsedData));
+            }else{
+              alert("Authentication failed")
             }
         }
-    );
+      }
+    })()
   })
+
 
   return (
     <SafeView>
@@ -44,7 +72,7 @@ const AccountScreen: React.FC = () => {
         </>
       ) : (
         <View>
-            <AccountInfo email={account.email} password={''} username={account.username} id={''} isSignIn={false}/>
+            <AccountInfo email={account.email} password={account.username} username={account.username} _id={account._id} isSignIn={false}/>
         </View>
       )}
     </SafeView>

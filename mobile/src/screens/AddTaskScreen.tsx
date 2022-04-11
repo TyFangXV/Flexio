@@ -1,4 +1,4 @@
-import { useNavigation } from '@react-navigation/native';
+import { NavigationProp, useNavigation } from '@react-navigation/native';
 
 import React, { useState } from 'react';
 import { AntDesign } from '@expo/vector-icons';
@@ -25,7 +25,38 @@ import { RootState } from '../redux/reducers';
 import { resetData, setCategory, setTitle } from '../redux/reducers/task';
 import { addTask } from '../redux/reducers/tasklist';
 import { setItem } from '../utils/database';
+import { Dispatch } from 'redux';
+import axios from 'axios';
 
+
+const AddTaskToList = async(newTask:Task, dispatcher:Dispatch, navigation:NavigationProp<any>, TaskList:Task[], userID:string)=>{
+
+      //add the task to the list
+      dispatcher(addTask(newTask));
+      //reset the form
+      dispatcher(resetData());
+  
+      //save the task to the local storage
+      setItem("TaskList", JSON.stringify([...TaskList, newTask]))
+       .then((e) => {
+          alert("Task added successfully");
+          navigation.goBack();
+      })
+      .catch(err => {
+        //console.log('TaskList not saved');
+        alert("Task not added");
+        navigation.goBack();   
+      });
+      
+      try {
+        const {data} = await axios.post(`${Setting.ApiUrl}/task/addTask`, {userid : userID, task: newTask})
+        console.log(data);
+        
+      } catch (error) {
+        console.log(error);
+        
+      }
+}
 
 const AddTask: React.FC = () => {
   const navigation = useNavigation();
@@ -33,6 +64,7 @@ const AddTask: React.FC = () => {
 
   const task = useSelector((state:RootState) => state.Task.task);
   const TaskList  = useSelector((state:RootState) => state.TaskList);
+  const account = useSelector((state:RootState) => state.Account);
 
   const dispatcher = useDispatch();
   //function to add the task to the list
@@ -58,7 +90,7 @@ const AddTask: React.FC = () => {
 
     //add the task to the list
     const newTask: Task = {
-      id: uuid.v4(),
+      _id: uuid.v4(),
       title: task.title,
       date: task.date,
       isDone: false,
@@ -68,25 +100,9 @@ const AddTask: React.FC = () => {
     };
 
     
+    console.log(account);
     
-    //add the task to the list
-    dispatcher(addTask(newTask));
-    //reset the form
-    dispatcher(resetData());
-
-    //save the task to the local storage
-    setItem("TaskList", JSON.stringify([...TaskList, newTask]))
-     .then((e) => {
-        alert("Task added successfully");
-        navigation.goBack();
-    })
-    .catch(err => {
-      //console.log('TaskList not saved');
-      alert("Task not added");
-      navigation.goBack();   
-    });
-    
-    console.log("pressed");
+    AddTaskToList(newTask, dispatcher, navigation, TaskList, account._id);
     
   };
 

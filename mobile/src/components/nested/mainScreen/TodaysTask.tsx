@@ -120,14 +120,14 @@ const TodaysTask: React.FC = () => {
                 <TaskComponent
                   title={item.title}
                   color={item.settings.category.color}
-                  id={item.id}
+                  _id={item._id}
                   till={item.Time.till}
                   date={item.date}
                   from={item.Time.from}
                   isTemplate={item.isTemplate}
                   isDone={item.isDone}
                   icon={item.settings.category.icon}
-                  OnPress={() => removeTaskFromList(item.id, dispatcher)}
+                  OnPress={() => removeTaskFromList(item._id, dispatcher)}
                   props={undefined}
                 />
               );

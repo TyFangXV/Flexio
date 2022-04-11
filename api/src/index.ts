@@ -1,6 +1,7 @@
 import * as env from 'dotenv'
 import express from 'express'
 import AuthRouter from './middleware/auth/index'
+import TaskRouter from './middleware/task/index'
 import mongoose from 'mongoose'
 env.config();
 
@@ -21,7 +22,7 @@ app.set("trust proxy", 1);
 
 
 app.use("/auth", AuthRouter)
-
+app.use("/task", TaskRouter)
 app.get("/", (req, res) => {
     res.send("Hello World!");
 })

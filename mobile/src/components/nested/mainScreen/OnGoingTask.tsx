@@ -43,7 +43,7 @@ const OnGoingTask: React.FC = () => {
               <OnGoingTaskComponent
                 title={item.title}
                 settings={item.settings}
-                id={item.id}
+                _id={item._id}
                 date={item.date}
                 isDone={false}
                 Time={item.Time}
