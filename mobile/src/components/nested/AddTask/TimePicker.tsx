@@ -16,7 +16,7 @@ const TimePicker: React.FC = () => {
         onChange={(e: any, t: Date) =>
           t !== undefined && dispatcher(setTimeFrom(t))
         }
-        value={task.Time.from}
+        value={new Date(task.Time.from)}
         is24Hour={false}
       />
       <Text
@@ -28,7 +28,7 @@ const TimePicker: React.FC = () => {
         onChange={(e: any, t: Date) =>
           t !== undefined && dispatcher(setTimeTill(t))
         }
-        value={task.Time.till}
+        value={new Date(task.Time.till)}
         is24Hour={false}
       />
     </View>

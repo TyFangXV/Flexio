@@ -27,9 +27,12 @@ const TodaysTask: React.FC = () => {
   const [categoryList, _setCategoryList] = useState<Category[]>(Setting.category);
   const [selectedCategory, setSelectedCategory] = useState<Category>(Setting.category[0]);
   const transition = useRef(new Animated.Value(0)).current;
-  let filteredTaskList: Task[] = TaskList.filter((task: Task) => new Date(task.date.from).toLocaleDateString() === new Date().toLocaleDateString() || new Date(task.date.till).getTime() > new Date().getTime());
 
+  //filter the tasklist to show only the tasks task of the current date
+  let filteredTaskList: Task[] = TaskList
 
+      console.log(TaskList);
+      
 
   //filter the list to based of the selected category and time
   if (selectedCategory.name !== 'All') {

@@ -51,7 +51,7 @@ export const taskListReducer: Reducer<Task[]> = (state = initialState.TaskList, 
         case 'ADD_TASK':
             const newTask = action.payload.task;
             //check if the task is already in the list
-            const taskList = state.filter(task => task.id === newTask.id);
+            const taskList = state.filter(task => task._id === newTask.id);
             if (taskList.length === 0) {
                 return [...state, newTask];
             }
@@ -60,7 +60,7 @@ export const taskListReducer: Reducer<Task[]> = (state = initialState.TaskList, 
             }
             
         case 'DELETE_TASK':
-            const newTaskList = state.filter(task => task.id !== action.payload.id);
+            const newTaskList = state.filter(task => task._id !== action.payload.id);
             state = newTaskList
             setItem("TaskList", JSON.stringify(state))
                 .then(() => console.log("TaskList updated"))
@@ -68,7 +68,7 @@ export const taskListReducer: Reducer<Task[]> = (state = initialState.TaskList, 
             return state;
         case 'EDIT_TASK':
             return state.map(task => {
-                if (task.id === action.payload.id) {
+                if (task._id === action.payload.id) {
                     return {
                         ...task,    
                         ...action.payload.task
@@ -77,7 +77,7 @@ export const taskListReducer: Reducer<Task[]> = (state = initialState.TaskList, 
                 return task;
             });
         case 'GET_TASK_FROM_LIST':
-            return state.filter(task => task.id === action.payload.id);    
+            return state.filter(task => task._id === action.payload.id);    
         case "UPDATE_TASK_LIST":
             return state = action.payload.taskList;    
         default:

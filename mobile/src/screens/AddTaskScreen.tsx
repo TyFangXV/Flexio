@@ -9,6 +9,7 @@ import {
   Text,
   Pressable,
   TouchableOpacity,
+  Alert,
 } from 'react-native';
 import * as uuid from 'uuid'
 import { Task } from '../../types';
@@ -50,11 +51,9 @@ const AddTaskToList = async(newTask:Task, dispatcher:Dispatch, navigation:Naviga
       
       try {
         const {data} = await axios.post(`${Setting.ApiUrl}/task/addTask`, {userid : userID, task: newTask})
-        console.log(data);
-        
+        alert("Task sync successfully");
       } catch (error) {
-        console.log(error);
-        
+        alert("Failed to add task to server");
       }
 }
 
@@ -73,8 +72,8 @@ const AddTask: React.FC = () => {
 
     //check if the time is valid if the date is the same
     if (
-      task.date.from.toLocaleDateString() ===
-      task.date.till.toLocaleDateString()
+      new Date(task.date.from).toLocaleDateString() ===
+      new Date(task.date.till).toLocaleDateString()
     ) {
       if (minsPerDay(task.Time.from) > minsPerDay(task.Time.till)) {
         alert('Invalid time');

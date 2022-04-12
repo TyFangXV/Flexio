@@ -23,7 +23,6 @@ router.post("/addTask", async (req, res) => {
             message: "Task added successfully"
         });
 
-        res.send({userid, ...task});
     }
     else {
         res.send({
@@ -33,4 +32,25 @@ router.post("/addTask", async (req, res) => {
     }
 })
 
+router.get("/getTask", async (req, res) => {
+    const { userid } = req.query;
+    const UserIDVerification = await userModel.findOne({ _id: userid });
+    console.log(UserIDVerification);
+    
+    //check if user exist
+    if (UserIDVerification) {
+        const task = await taskModel.find({ userID: userid });
+        res.send({
+            status: "success",
+            message: "Task found",
+            data: task
+        });
+    }
+    else {
+        res.send({
+            status: "error",
+            message: "User not found"
+        });
+    }
+})
 export default router;

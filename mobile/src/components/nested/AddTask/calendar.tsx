@@ -16,7 +16,7 @@ const CalendarPicker = () => {
     <View style={style.container}>
       <CustomDatePicker
         onChange={(e: any, date: Date | undefined) => date !== undefined && dispatcher(setFromDate(date))}
-        value={task.date.from}
+        value={new Date(task.date.from)}
         mode={'date'}
         is24Hour={false}
       />
@@ -25,7 +25,7 @@ const CalendarPicker = () => {
         onChange={(e: any, date: Date | undefined) => date !== undefined && dispatcher(setTillDate(date))}
         value={task.date.till}
         mode={'date'}
-        minimumDate={task.date.from}
+        minimumDate={new Date(task.date.from)}
         is24Hour={false}
       />
     </View>

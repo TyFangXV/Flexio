@@ -6,7 +6,7 @@ import { RootState } from "../redux/reducers";
 import { Task } from "../../types";
 import OnGoingtaskPlaceHolder from "../components/nested/placeholder/onGoingTask/OnGoingtask";
 import TopButtons from "../components/nested/mainScreen/TopButtons";
-
+import * as uuid from 'uuid';
 
 const HistoryScreen:React.FC = () => {
     const TaskList:Task[] = useSelector((state:RootState) => state.TaskList);
@@ -21,7 +21,7 @@ const HistoryScreen:React.FC = () => {
                         <FlatList
                             data={TaskList}
                             renderItem={({item}) => <Text>{item.title}</Text>}
-                            keyExtractor={(item) => item.id}
+                            key={uuid.v4()}
                         />
                     )
                 }                
