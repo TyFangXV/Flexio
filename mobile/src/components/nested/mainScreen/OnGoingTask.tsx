@@ -38,7 +38,7 @@ const OnGoingTask: React.FC = () => {
           <FlatList
             data={filteredTaskList}
             horizontal={true}
-            key={uuid.v4()}
+            keyExtractor={ item => uuid.v4()}
             renderItem={({ item }) => (
               <OnGoingTaskComponent
                 title={item.title}

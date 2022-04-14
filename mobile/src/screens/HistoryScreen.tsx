@@ -21,7 +21,7 @@ const HistoryScreen:React.FC = () => {
                         <FlatList
                             data={TaskList}
                             renderItem={({item}) => <Text>{item.title}</Text>}
-                            key={uuid.v4()}
+                            keyExtractor={ item => uuid.v4()}
                         />
                     )
                 }                

@@ -112,7 +112,7 @@ const TodaysTask: React.FC = () => {
             numColumns={2}
             horizontal={false}
             automaticallyAdjustContentInsets={false}
-            key={uuid.v4()}
+            keyExtractor={ item => uuid.v4()}
             data={
               selectedCategory.name !== 'All'
                 ? filteredTaskList

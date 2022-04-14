@@ -9,9 +9,8 @@ import { useDispatch, useSelector } from 'react-redux';
 import { RootState } from '../redux/reducers';
 import Colors from '../constants/Colors';
 import PlaceHolderImage from '../components/nested/placeholder/TodayTask/PlaceHolder';
-import { getItem } from '../utils/database';
 import { addTask } from '../redux/reducers/tasklist';
-import { getTask } from '../utils/TaskManager';
+import { SyncTaskWithRest } from '../utils/TaskManager';
 
 const TabOneScreen: React.FC<any> = ({
   navigation,
@@ -33,10 +32,7 @@ const TabOneScreen: React.FC<any> = ({
   useEffect(() => {
     (async () => {
       if (Account.isSignIn) {
-        const task = await getTask(Account._id);
-        task.map((task: Task) => dispatcher(addTask(task)));
-        console.log('TaskList', task);
-        
+        SyncTaskWithRest(Account._id);
       }
     })()
   }, []);
