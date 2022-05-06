@@ -9,7 +9,7 @@ import { useDispatch, useSelector } from 'react-redux';
 import { RootState } from '../redux/reducers';
 import Colors from '../constants/Colors';
 import PlaceHolderImage from '../components/nested/placeholder/TodayTask/PlaceHolder';
-import { addTask } from '../redux/reducers/tasklist';
+import { addTaskList } from '../redux/reducers/tasklist';
 import { SyncTaskWithRest } from '../utils/TaskManager';
 
 const TabOneScreen: React.FC<any> = ({
@@ -17,22 +17,13 @@ const TabOneScreen: React.FC<any> = ({
 }: RootTabScreenProps<'TabOne'>) => {
   const TaskList = useSelector((state: RootState) => state.TaskList);
   const Account = useSelector((state: RootState) => state.Account);
-  const dispatcher = useDispatch();
-
-  /*      //get the Task from the local storage and add it to the list
-      getItem('TaskList').then((data) => {
-        if (data !== null) {
-          const parsedData = JSON.parse(data as string);
-          parsedData.map((task: Task) => {
-            dispatcher(addTask(task));
-          });
-        }
-      });*/
+  const dispatch = useDispatch();
 
   useEffect(() => {
     (async () => {
       if (Account.isSignIn) {
-        SyncTaskWithRest(Account._id);
+        const task = await SyncTaskWithRest(Account._id);
+        dispatch(addTaskList(task));
       }
     })()
   }, []);

@@ -16,6 +16,16 @@ export const addTask = (task:Task) => {
     };
 }
 
+
+export const addTaskList = (taskList:Task[]) => {
+    return {
+        type: 'ADD_TASK_LIST',
+        payload: {
+            taskList: taskList
+        }
+    };
+}
+
 export const removeTask = (id:string) => {
     return {
         type: 'DELETE_TASK',
@@ -79,7 +89,9 @@ export const taskListReducer: Reducer<Task[]> = (state = initialState.TaskList, 
         case 'GET_TASK_FROM_LIST':
             return state.filter(task => task._id === action.payload.id);    
         case "UPDATE_TASK_LIST":
-            return state = action.payload.taskList;    
+            return state = action.payload.taskList;  
+        case "ADD_TASK_LIST":
+            return state = [...state, ...action.payload.taskList];
         default:
             return state;
     }
