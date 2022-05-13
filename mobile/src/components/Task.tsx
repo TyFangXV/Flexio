@@ -2,7 +2,7 @@ import { Ionicons } from '@expo/vector-icons';
 import React from 'react';
 import { StyleSheet, View, Text, PixelRatio } from 'react-native';
 
-import { formatAMPM } from '../utils/formatAMPM';
+import { formatAMPM } from '../utils/converters';
 import RadioButton from './RadioButton';
 
 type Props = {

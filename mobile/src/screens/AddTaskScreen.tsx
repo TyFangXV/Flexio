@@ -1,6 +1,6 @@
+import React, { useState } from 'react';
 import { NavigationProp, useNavigation } from '@react-navigation/native';
 
-import React, { useState } from 'react';
 import { AntDesign } from '@expo/vector-icons';
 import {
   StyleSheet,
@@ -20,7 +20,7 @@ import Header from '../components/PromptHeader';
 import CustomSafeView from '../components/root/View';
 import Colors from '../constants/Colors';
 import Setting from '../constants/Setting';
-import { minsPerDay } from '../utils/minsPerDay';
+import { minsPerDay } from '../utils/converters';
 import { useDispatch, useSelector } from 'react-redux';
 import { RootState } from '../redux/reducers';
 import { resetData, setCategory, setTitle } from '../redux/reducers/task';

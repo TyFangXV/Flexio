@@ -8,7 +8,7 @@ import {
 import { Ionicons } from '@expo/vector-icons';
 import DateTimePicker from '@react-native-community/datetimepicker';
 import React from 'react';
-import { formatAMPM } from '../../utils/formatAMPM';
+import { formatAMPM } from '../../utils/converters';
 
 type Props = {
   minimumTime?: Date;
