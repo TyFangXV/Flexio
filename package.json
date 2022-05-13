@@ -1,0 +1,15 @@
+{
+  "name": "rufio",
+  "version": "0.1.0",
+  "description": "a todo app",
+  "scripts": {
+    "server-start-up-dev" : "cd api && yarn dev",
+    "website-start-up-dev" : "cd website && yarn dev",
+    "mobile-start-up-dev" : "cd mobile && expo start --max-workers=4"
+  
+  },
+  "main": "index.js",
+  "repository": "https://github.com/TyFangXV/Flexio.git",
+  "author": "TyfangXV <9fangdev@gmail.com>",
+  "license": "MIT"
+}

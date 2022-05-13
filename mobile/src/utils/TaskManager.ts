@@ -64,6 +64,5 @@ export const SyncTaskWithRest = async(userID:string) => {
     }
 
     const newArrWithoutDuplicate = removeDuplicates(newArr);
-
     return newArrWithoutDuplicate;
 }
