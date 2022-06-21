@@ -6,7 +6,7 @@
     "server-start-up-dev" : "cd api && yarn dev",
     "website-start-up-dev" : "cd website && yarn dev",
     "mobile-start-up-dev" : "cd mobile && expo start --max-workers=4"
-  
+    
   },
   "main": "index.js",
   "repository": "https://github.com/TyFangXV/Flexio.git",
